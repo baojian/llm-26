@@ -15,17 +15,16 @@ theme: jekyll-theme-minimal
 
 # Course Overview
 
-**Course ID:** CS40008.01: NLP and LLMs
-
-**Course Info:** Spring 2026, Fudan University
-
-**Instructor:** [Baojian Zhou](https://baojian.github.io/)
-
-**Time:** 03/05/2026-06/18/2026, Thu., 1:30 pm - 4:10 pm
-
-**Location:** Coming Soon
-
-**Office Hours:** 10:00 am-1:00 pm, Thu & 611
+- **Course ID:** CS40008.01: NLP and LLMs
+- **Course Info:** Spring 2026, Fudan University
+- **Instructor:** [Baojian Zhou](https://baojian.github.io/), Email: bjzhou AT fudan.edu.cn
+- **TAs:**
+  - Coming soon
+  - Coming soon
+  - Coming soon
+- **Time:** 03/05/2026–06/18/2026, Thu., 1:30 pm – 4:10 pm
+- **Location:** Coming Soon
+- **Office Hours:** 10:00 am – 1:00 pm, Thu & 611
 
 This course covers the foundations and modern frontiers of Natural Language Processing (NLP), with a heavy emphasis on **Large Language Models (LLMs)**. You will learn the modern pipeline of building effective LLMs from basic tokenization to training, fine-tuning, and deploying modern LLM architectures.
 
