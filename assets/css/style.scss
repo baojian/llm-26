@@ -1,36 +1,43 @@
----
----
-
-@import "{{ site.theme }}";
+/* ================================
+   Layout overrides (orderedlist / minimal)
+   - hide sidebar
+   - remove footer credit
+   - center main content with ~18% side whitespace
+   ================================ */
 
 /* Hide the left sidebar / header */
 header {
   display: none !important;
 }
 
-/* Let the main content take full width */
+/* Hide footer credit */
+footer, .site-footer, .footer {
+  display: none !important;
+}
+
+/* Make wrapper full-width (let section control readable width) */
+.wrapper {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+}
+
+/* Main content: centered, ~18% whitespace on each side, capped max width */
 section {
   float: none !important;
-  width: auto !important;
+  width: 64% !important;          /* 100 - 18 - 18 */
+  margin-left: 18% !important;
+  margin-right: 18% !important;
+  max-width: 980px !important;    /* cap content width */
+  box-sizing: border-box !important;
 }
 
-.wrapper {
-  max-width: 90% !important;    /* Use 95% of the screen width */
-  width: 80% !important;        /* Force it to be wide */
-  margin: 0 auto;
-}
-
-table {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-body {
-  font-size: 16px; 
-}
-
-footer {
-  display: none !important;
+/* Responsive: relax margins on smaller screens */
+@media (max-width: 900px) {
+  section {
+    width: auto !important;
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+    max-width: none !important;
+  }
 }
