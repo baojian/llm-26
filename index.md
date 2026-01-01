@@ -77,19 +77,14 @@ Please submit your homework at [https://elearning.fudan.edu.cn/](https://elearni
 
 # Resources and References
 
-## Textbook & Readings
-- **Primary:** [Speech and Language Processing (Jurafsky & Martin, 3rd Ed. Draft)](https://web.stanford.edu/~jurafsky/slp3/)
-- **Book:**
-
-## Computing & Communication
-- **University Cluster:** [https://cfff.fudan.edu.cn/home](https://cfff.fudan.edu.cn/home)
-- **Course Repo:** [baojian/llm-26](https://github.com/baojian/llm-26)
-
-## Academic Integrity
-- Please check [our policies](https://xxgk.fudan.edu.cn/_upload/article/files/f5/11/cc2c9a8c4f3ead2dbb00e4fa33c8/02adc618-b180-435c-b1bd-baf4cba3dd72.pdf). 
-
-## AI Policy
-
+- **Textbook & Readings**
+  - [Speech and Language Processing (Jurafsky & Martin, 3rd Ed. Draft)](https://web.stanford.edu/~jurafsky/slp3/)
+  - Coming soon
+- **Computing & Communication**
+  - **University Cluster:** [https://cfff.fudan.edu.cn/home](https://cfff.fudan.edu.cn/home)
+  - **Course Repo:** [baojian/llm-26](https://github.com/baojian/llm-26)
+  - **Academic Integrity:** Please check [our policies](https://xxgk.fudan.edu.cn/_upload/article/files/f5/11/cc2c9a8c4f3ead2dbb00e4fa33c8/02adc618-b180-435c-b1bd-baf4cba3dd72.pdf).
+- **AI Policy**
 Use of AI coding assistants **is permitted**. However, you should explicitly attribute the use of AI in your assignment.
 
 ---
