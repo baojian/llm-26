@@ -38,30 +38,30 @@ This course covers the foundations and modern frontiers of Natural Language Proc
 
 ---
 
-# Assignments and Course Project
+## Assignments and Course Project
 
-Please submit your homework at [https://elearning.fudan.edu.cn/](https://elearning.fudan.edu.cn/)
+All standard homework assignments are completed by **Week 12**. The final month (Weeks 13–16) is dedicated exclusively to the Course Project. Please submit your homework at [https://elearning.fudan.edu.cn/](https://elearning.fudan.edu.cn/)
 
-## Assignment 1. Foundations of Text
+### Assignment 1. Foundations of Text
 - **Due:** Week 4
 - **Scope:** Implement BPE tokenization from scratch; train a Word2Vec model.
 - **Deliverable:** Python Notebook + Analysis Report.
 
-## Assignment 2. The Transformer Block
+### Assignment 2. The Transformer Block
 - **Due:** Week 7
 - **Scope:** Build a mini-Transformer; visualize attention heads.
 - **Track B Requirement:** Implement `MultiHeadAttention` in raw PyTorch without `nn.Transformer`.
 
-## Assignment 3. LLM Lifecycle: Fine-tuning
+### Assignment 3. LLM Lifecycle: Fine-tuning
 - **Due:** Week 10
 - **Scope:** Parameter-Efficient Fine-Tuning (LoRA) of a small Llama/Qwen model on a custom instruction set.
 - **Eval:** Compare pre-trained vs. fine-tuned performance on specific tasks.
 
-## Assignment 4. RAG Systems
+### Assignment 4. RAG Systems
 - **Due:** Week 12
 - **Scope:** Build a vertical QA system (e.g., "Textbook Chatbot"). Index a specific PDF/Corpus, implement retrieval + generation loop, and evaluate hallucination rates using automated metrics.
 
-## Course Project
+### Course Project
 - **Timeline:** Weeks 13–16 (Dedicated time)
 - **Teams:** 2-3 Students.
 - **Deliverables:**
@@ -75,7 +75,7 @@ Please submit your homework at [https://elearning.fudan.edu.cn/](https://elearni
 
 ---
 
-# Resources and References
+## Resources and References
 
 - **Textbook & Readings**
   - [Speech and Language Processing (Jurafsky & Martin, 3rd Ed. Draft)](https://web.stanford.edu/~jurafsky/slp3/)
@@ -89,27 +89,99 @@ Use of AI coding assistants **is permitted**. However, you should explicitly att
 
 ---
 
-# Weekly Schedule
+## Weekly Schedule
 
-**Note:** All standard homework assignments are completed by **Week 12**. The final month (Weeks 13–16) is dedicated exclusively to the Final Project.
+### Week 1 Introduction to LLMs
 
-| Week | Topic | Key Concepts | Lab / Assignment |
-| :--- | :--- | :--- | :--- |
-| **1** | **NLP Foundations** | Text preprocessing, Tokenization (BPE/WordPiece), Vocab design | *Release Assignment 1* |
-| **2** | **N-Gram Models** | MLE, Smoothing, Perplexity, Language Modeling basics | |
-| **3** | **Word Embeddings** | Word2Vec, Distributional Hypothesis, Intrinsic/Extrinsic eval | |
-| **4** | **Neural LMs** | FFNNs for language, Softmax, Batching, Optimization | **Assn 1 Due** (Foundations) |
-| **5** | **Sequence Modeling** | RNNs/LSTMs (Brief overview), Encoder-Decoder paradigms | *Release Assignment 2* |
-| **6** | **Attention Mechanisms** | Dot-product attention, Query/Key/Value intuition | |
-| **7** | **The Transformer** | Self-Attention, Multi-head, Positional Encodings, LayerNorm | **Assn 2 Due** (Architecture) |
-| **8** | **LLM Pretraining** | Causal LM vs MLM, Chinchilla Scaling Laws, Data Mixtures | *Release Assignment 3* |
-| **9** | **Fine-tuning & PEFT** | SFT, LoRA/QLoRA, Adapters, Instruction Tuning | **Project Proposal Due** |
-| **10** | **Evaluation** | Benchmarks (MMLU/GSM8K), Contamination, LLM-as-a-judge | **Assn 3 Due** (Finetuning) |
-| **11** | **Prompt Engineering** | In-context learning, Chain-of-Thought, Prompt sensitivity | *Release Assignment 4* |
-| **12** | **Course Project** | Presentation | |
-| **13** | **RAG Systems** | Dense Retrieval, Vector DBs, Reranking, Grounding | **Assn 4 Due** (Systems) |
-| **14** | **Alignment & Safety** | RLHF (PPO/DPO), Safety barriers, Red-teaming | *Project Work Week* |
-| **15** | **Efficiency & Systems** | KV Caching, Quantization (Int8/FP4), Latency/Throughput | *Project Work Week* |
-| **16** | **Frontiers** | Multimodal LLMs, Diffusion LMs, Future Directions | **Final Project Presentation** |
+In our first lecture, we introduce text preprocessing, including tokenization (BPE/WordPiece), and vocab design.
+
+- **Slides:**
+- **Readings:**
+  - dd
+  - ddd
+  - ddd
+- **Notes:**
+- **Excercise:**
+
+**Release Assignment 1**
+
+### Week 2 N-Gram Language Models
+
+In this lecture, we introduce the concept of MLE, Smoothing, Perplexity, and Language Modeling basics.
+
+- **Slides:**
+- **Readings:**
+  - dd
+  - ddd
+  - ddd
+- **Notes:**
+- **Excercise:**
+- 
+
+### Week 3 Word Embeddings
+
+Word2Vec, Distributional Hypothesis, Intrinsic/Extrinsic eval
+
+### Week 4 Neural LMs
+
+FFNNs for language, Softmax, Batching, Optimization
+
+**Assignment 1 Due**
+**Release Assignment 2**
+
+### Week 5 Sequence Modeling
+
+RNNs/LSTMs (Brief overview), Encoder-Decoder paradigms
+
+
+### Week 6 Attention Mechanisms
+
+Dot-product attention, Query/Key/Value intuition
+
+### Week 7 The Transformer Architecture
+
+Self-Attention, Multi-head, Positional Encodings, LayerNorm
+
+**Assignment 2 Due** 
+**Release Assignment 3**
+
+### Week 8 LLM Pretraining
+
+Causal LM vs MLM, Chinchilla Scaling Laws, Data Mixtures
+
+### Week 9 Fine-tuning & PEFT
+
+SFT, LoRA/QLoRA, Adapters, Instruction Tuning
+
+**Project Proposal Due**
+
+### Week 10 Evaluation
+
+Benchmarks (MMLU/GSM8K), Contamination, LLM-as-a-judge
+
+**Assignment 3 Due** 
+**Release Assignment 4**
+
+### Week 11 Prompt Engineering
+
+In-context learning, Chain-of-Thought, Prompt sensitivity 
+
+### Week 12 Course Project Presentation
+
+### Week 13 RAG Systems
+
+Dense Retrieval, Vector DBs, Reranking, Grounding
+
+### Week 14 Alignment & Safety
+
+RLHF (PPO/DPO), Safety barriers, Red-teaming
+
+### Week 15 Efficiency & Systems
+
+KV Caching, Quantization (Int8/FP4), Latency/Throughput
+
+### Week 16 Frontiers
+
+Multimodal LLMs, Diffusion LMs, Future Directions
 
 
