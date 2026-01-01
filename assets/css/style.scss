@@ -3,23 +3,41 @@
 
 @import "{{ site.theme }}";
 
-/* 1. Make the container wider, but keep it responsive */
+/* 1. EXPAND THE OUTER CONTAINER */
 .wrapper {
-  width: 94%;                 /* Takes up almost full width on mobile/tablets */
-  max-width: 1200px !important; /* Stops getting too wide on huge desktop monitors */
-  margin: 0 auto;             /* Keeps it centered */
+  max-width: 95% !important;    /* Use 95% of the screen width */
+  width: 95% !important;        /* Force it to be wide */
+  margin: 0 auto;
 }
 
-/* 2. Fix the Table on Mobile (Crucial for Course Schedules) */
+/* 2. MEDIA QUERY FOR DESKTOP SCREENS */
+/* Only apply this side-by-side layout on screens wider than 768px */
+@media screen and (min-width: 768px) {
+  
+  /* Shrink the Sidebar (Header) */
+  header {
+    width: 220px !important;    /* Force sidebar to be narrower (Default is ~270px) */
+    padding-right: 20px;        /* Reduce padding to save space */
+  }
+
+  /* Expand the Main Content (Section) */
+  section {
+    width: calc(100% - 250px) !important; /* Fill ALL remaining space */
+    max-width: none !important;           /* Remove the default limit */
+    padding: 0 !important;                /* Remove extra padding if any */
+  }
+}
+
+/* 3. MOBILE FIXES */
+/* Ensure tables scroll horizontally on phones */
 table {
-  display: block;             /* Allows the table to behave like a block */
-  width: 100%;                /* Full width of container */
-  overflow-x: auto;           /* Adds a scrollbar ONLY to the table if it's too wide */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iPhone/iPad */
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* 3. Optional: Make the font slightly larger for readability on wide screens */
+/* Optional: Make text slightly larger for better readability on wide screens */
 body {
-  font-size: 16px;
+  font-size: 16px; 
 }
-
