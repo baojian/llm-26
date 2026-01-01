@@ -1,0 +1,36 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Hide the left sidebar / header */
+header {
+  display: none !important;
+}
+
+/* Let the main content take full width */
+section {
+  float: none !important;
+  width: auto !important;
+}
+
+.wrapper {
+  max-width: 90% !important;    /* Use 95% of the screen width */
+  width: 80% !important;        /* Force it to be wide */
+  margin: 0 auto;
+}
+
+table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  font-size: 16px; 
+}
+
+footer {
+  display: none !important;
+}
