@@ -34,6 +34,11 @@ section {
   box-sizing: border-box !important;
 }
 
+body {
+  font-size: 17px !important;
+  line-height: 1.65 !important;
+}
+
 /* Responsive: relax margins on smaller screens */
 @media (max-width: 900px) {
   section {
