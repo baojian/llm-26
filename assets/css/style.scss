@@ -3,33 +3,23 @@
 
 @import "{{ site.theme }}";
 
-/* 1. EXPAND THE OUTER CONTAINER */
+/* Hide the left sidebar / header */
+header {
+  display: none !important;
+}
+
+/* Let the main content take full width */
+section {
+  float: none !important;
+  width: auto !important;
+}
+
 .wrapper {
   max-width: 90% !important;    /* Use 95% of the screen width */
   width: 80% !important;        /* Force it to be wide */
   margin: 0 auto;
 }
 
-/* 2. MEDIA QUERY FOR DESKTOP SCREENS */
-/* Only apply this side-by-side layout on screens wider than 768px */
-@media screen and (min-width: 768px) {
-  
-  /* Shrink the Sidebar (Header) */
-  header {
-    width: 220px !important;    /* Force sidebar to be narrower (Default is ~270px) */
-    padding-right: 20px;        /* Reduce padding to save space */
-  }
-
-  /* Expand the Main Content (Section) */
-  section {
-    width: calc(100% - 250px) !important; /* Fill ALL remaining space */
-    max-width: none !important;           /* Remove the default limit */
-    padding: 0 !important;                /* Remove extra padding if any */
-  }
-}
-
-/* 3. MOBILE FIXES */
-/* Ensure tables scroll horizontally on phones */
 table {
   display: block;
   width: 100%;
@@ -37,7 +27,6 @@ table {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Optional: Make text slightly larger for better readability on wide screens */
 body {
   font-size: 16px; 
 }
