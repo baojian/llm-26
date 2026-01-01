@@ -5,8 +5,8 @@
 
 /* 1. EXPAND THE OUTER CONTAINER */
 .wrapper {
-  max-width: 95% !important;    /* Use 95% of the screen width */
-  width: 85% !important;        /* Force it to be wide */
+  max-width: 90% !important;    /* Use 95% of the screen width */
+  width: 80% !important;        /* Force it to be wide */
   margin: 0 auto;
 }
 
@@ -40,4 +40,8 @@ table {
 /* Optional: Make text slightly larger for better readability on wide screens */
 body {
   font-size: 16px; 
+}
+
+footer {
+  display: none !important;
 }
