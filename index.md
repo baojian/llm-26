@@ -111,9 +111,11 @@ In this lecture, we introduce the concept of MLE, Smoothing, Perplexity, and Lan
 
 - **Slides:**
 - **Readings:**
-  - dd
-  - ddd
-  - ddd
+  - [JM Book Chapter 2](lecture-01/readings-0-JM%20Book%20Chapter%202.pdf)
+  - [Advances in NLP](lecture-01/readings-1-Advances%20in%20NLP.pdf)
+  - [Human Language Understanding and Reasoning](lecture-01/readings-2-Human%20Language%20Understanding%20and%20Reasoning.pdf)
+  - [Scaling Laws with Vocabulary (2407.13623v1)](lecture-01/readings-3-Scaling%20Laws%20with%20Vocabulary-2407.13623v1.pdf)
+  - [Getting the most out of your tokenizer for pre-training](lecture-01/readings-4-Getting%20the%20most%20out%20of%20your%20tokenizer%20for%20pre-training.pdf)
 - **Notes:**
 - **Excercise:**
 - 
