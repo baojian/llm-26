@@ -30,7 +30,7 @@ This course covers the foundations and modern frontiers of Natural Language Proc
   - Coming soon
   - Coming soon
   - Coming soon
-- **Time:** 03/05/2026–06/18/2026, Thu., 1:30 pm – 4:10 pm
+- **Time:** 03/05/2026–06/18/2026, Thu., 1:30 pm – 4:10 pm, <a href="Fudan-2026-spring-calendar.pdf" target="_blank" rel="noopener">Fudan Calendar</a>
 - **Location:** Coming Soon
 - **Office Hours:** 10:00 am – 1:00 pm, Thu & 611
 
