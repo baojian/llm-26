@@ -1,9 +1,15 @@
 ---
 layout: default
-title: CS40008.01 NLP & LLMs
+title: NLP & LLMs
 description: Spring 2026 @ Fudan University
 theme: jekyll-theme-minimal
 ---
+
+## Outline
+{: .no_toc }
+
+* TOC
+{:toc}
 
 # CS40008.01: NLP and LLMs
 
