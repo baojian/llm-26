@@ -11,11 +11,8 @@ theme: jekyll-theme-minimal
 * TOC
 {:toc}
 
-# CS40008.01: NLP and LLMs
-
-**Spring 2026 | Fudan University**
-
-
+**Course ID:** CS40008.01: NLP and LLMs
+**Course Info:** Spring 2026, Fudan University
 **Instructor:** [Baojian Zhou](https://baojian.github.io/)
 **Time:** 03/05/2026-06/18/2026, Thu., 1:30 pm - 4:10 pm  
 **Location:** Coming Soon
@@ -23,7 +20,7 @@ theme: jekyll-theme-minimal
 
 ---
 
-## Course Overview
+# Course Overview
 
 This course covers the foundations and modern frontiers of Natural Language Processing (NLP), with a heavy emphasis on **Large Language Models (LLMs)**. You will learn the modern pipeline of building effective LLMs from basic tokenization to training, fine-tuning, and deploying modern LLM architectures.
 
@@ -32,7 +29,7 @@ This course covers the foundations and modern frontiers of Natural Language Proc
 
 ---
 
-## Weekly Schedule
+# Weekly Schedule
 
 **Note:** All standard homework assignments are completed by **Week 12**. The final month (Weeks 13–16) is dedicated exclusively to the Final Project.
 
