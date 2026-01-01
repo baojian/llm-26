@@ -15,6 +15,14 @@ theme: jekyll-theme-minimal
 
 # Course Overview
 
+## Introduction
+
+This course covers the foundations and modern frontiers of Natural Language Processing (NLP), with a heavy emphasis on **Large Language Models (LLMs)**. You will learn the modern pipeline of building effective LLMs from basic tokenization to training, fine-tuning, and deploying modern LLM architectures. Our target audiences are undergraduates and graduate students.
+
+- **Prerequisites:** No formal prerequisites. For Fudan students, it’s safe to take this course in your second year.
+
+## Basic Info
+
 - **Course ID:** CS40008.01: NLP and LLMs
 - **Course Info:** Spring 2026, Fudan University
 - **Instructor:** [Baojian Zhou](https://baojian.github.io/), Email: bjzhou AT fudan.edu.cn
@@ -26,9 +34,7 @@ theme: jekyll-theme-minimal
 - **Location:** Coming Soon
 - **Office Hours:** 10:00 am – 1:00 pm, Thu & 611
 
-This course covers the foundations and modern frontiers of Natural Language Processing (NLP), with a heavy emphasis on **Large Language Models (LLMs)**. You will learn the modern pipeline of building effective LLMs from basic tokenization to training, fine-tuning, and deploying modern LLM architectures. Our target audiences are undergraduates and graduate students.
 
-- **Prerequisites:** No formal prerequisites. For Fudan students, it’s safe to take this course in your second year.
 
 ---
 
