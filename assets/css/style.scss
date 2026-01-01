@@ -1,17 +1,19 @@
-/* ================================
-   Layout overrides (orderedlist / minimal)
-   - hide sidebar
-   - remove footer credit
-   - center main content with ~18% side whitespace
-   ================================ */
+---
+---
 
+@import "{{ site.theme }}";
+
+/* Hide the left sidebar / header */
+header {
+  display: none !important;
+}
 /* Hide the left sidebar / header */
 header {
   display: none !important;
 }
 
 /* Hide footer credit */
-footer, .site-footer, .footer {
+footer {
   display: none !important;
 }
 
