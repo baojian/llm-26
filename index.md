@@ -26,10 +26,65 @@ theme: jekyll-theme-minimal
 - **Location:** Coming Soon
 - **Office Hours:** 10:00 am – 1:00 pm, Thu & 611
 
-This course covers the foundations and modern frontiers of Natural Language Processing (NLP), with a heavy emphasis on **Large Language Models (LLMs)**. You will learn the modern pipeline of building effective LLMs from basic tokenization to training, fine-tuning, and deploying modern LLM architectures.
+This course covers the foundations and modern frontiers of Natural Language Processing (NLP), with a heavy emphasis on **Large Language Models (LLMs)**. You will learn the modern pipeline of building effective LLMs from basic tokenization to training, fine-tuning, and deploying modern LLM architectures. Our target audiences are undergraduates and graduate students.
 
-* **Target Audience:** Mixed Undergraduate & Graduate students.
-* **Prerequisites:** No formal prerequisites. For Fudan students, it’s safe to take this course in your second year.
+- **Prerequisites:** No formal prerequisites. For Fudan students, it’s safe to take this course in your second year.
+
+---
+
+# Assignments and Course Project
+
+Please submit your homework at [https://elearning.fudan.edu.cn/](https://elearning.fudan.edu.cn/)
+
+## Assignment 1. Foundations of Text
+- **Due:** Week 4
+- **Scope:** Implement BPE tokenization from scratch; train a Word2Vec model.
+- **Deliverable:** Python Notebook + Analysis Report.
+
+## Assignment 2. The Transformer Block
+- **Due:** Week 7
+- **Scope:** Build a mini-Transformer; visualize attention heads.
+- **Track B Requirement:** Implement `MultiHeadAttention` in raw PyTorch without `nn.Transformer`.
+
+## Assignment 3. LLM Lifecycle: Fine-tuning
+- **Due:** Week 10
+- **Scope:** Parameter-Efficient Fine-Tuning (LoRA) of a small Llama/Qwen model on a custom instruction set.
+- **Eval:** Compare pre-trained vs. fine-tuned performance on specific tasks.
+
+## Assignment 4. RAG Systems
+- **Due:** Week 12
+- **Scope:** Build a vertical QA system (e.g., "Textbook Chatbot"). Index a specific PDF/Corpus, implement retrieval + generation loop, and evaluate hallucination rates using automated metrics.
+
+## Course Project
+- **Timeline:** Weeks 13–16 (Dedicated time)
+- **Teams:** 2-3 Students.
+- **Deliverables:**
+  - **Week 9:** 1-page Project Proposal (Problem, Dataset, Baselines).
+  - **Week 14:** Status Check / Preliminary Results.
+  - **Week 16:** Final Report + Presentation.
+- **Tracks:**
+  - *Research:* Novel architecture, loss function, or extensive ablation study.
+  - *Application:* End-to-end tool/agent with UI (Streamlit/Gradio).
+  - *Systems:* High-performance inference engine or quantization study.
+
+---
+
+# Resources and References
+
+## Textbook & Readings
+- **Primary:** [Speech and Language Processing (Jurafsky & Martin, 3rd Ed. Draft)](https://web.stanford.edu/~jurafsky/slp3/)
+- **Book:**
+
+## Computing & Communication
+- **University Cluster:** [https://cfff.fudan.edu.cn/home](https://cfff.fudan.edu.cn/home)
+- **Course Repo:** [baojian/llm-26](https://github.com/baojian/llm-26)
+
+## Academic Integrity
+- Please check [our policies](https://xxgk.fudan.edu.cn/_upload/article/files/f5/11/cc2c9a8c4f3ead2dbb00e4fa33c8/02adc618-b180-435c-b1bd-baf4cba3dd72.pdf). 
+
+## AI Policy
+
+Use of AI coding assistants **is permitted**. However, you should explicitly attribute the use of AI in your assignment.
 
 ---
 
@@ -56,59 +111,4 @@ This course covers the foundations and modern frontiers of Natural Language Proc
 | **15** | **Efficiency & Systems** | KV Caching, Quantization (Int8/FP4), Latency/Throughput | *Project Work Week* |
 | **16** | **Frontiers** | Multimodal LLMs, Diffusion LMs, Future Directions | **Final Project Presentation** |
 
----
 
-## Assignments & Grading
-
-Please submit your homework at [https://elearning.fudan.edu.cn/](https://elearning.fudan.edu.cn/)
-
-### 1. Foundations of Text (10%)
-* **Due:** Week 4
-* **Scope:** Implement BPE tokenization from scratch; train a Word2Vec model.
-* **Deliverable:** Python Notebook + Analysis Report.
-
-### 2. The Transformer Block (15%)
-* **Due:** Week 7
-* **Scope:** Build a mini-Transformer; visualize attention heads.
-* **Track B Requirement:** Implement `MultiHeadAttention` in raw PyTorch without `nn.Transformer`.
-
-### 3. LLM Lifecycle: Fine-tuning (15%)
-* **Due:** Week 10
-* **Scope:** Parameter-Efficient Fine-Tuning (LoRA) of a small Llama/Qwen model on a custom instruction set.
-* **Eval:** Compare pre-trained vs. fine-tuned performance on specific tasks.
-
-### 4. RAG Systems (20%)
-* **Due:** Week 12
-* **Scope:** Build a vertical QA system (e.g., "Textbook Chatbot"). Index a specific PDF/Corpus, implement retrieval + generation loop, and evaluate hallucination rates using automated metrics.
-
-### 5. Final Project (40%)
-* **Timeline:** Weeks 13–16 (Dedicated time)
-* **Teams:** 2-3 Students.
-* **Deliverables:**
-    * **Week 9:** 1-page Project Proposal (Problem, Dataset, Baselines).
-    * **Week 14:** Status Check / Preliminary Results.
-    * **Week 16:** Final Report + Presentation.
-* **Tracks:**
-    * *Research:* Novel architecture, loss function, or extensive ablation study.
-    * *Application:* End-to-end tool/agent with UI (Streamlit/Gradio).
-    * *Systems:* High-performance inference engine or quantization study.
-
----
-
-## Resources
-
-### Textbook & Readings
-* **Primary:** [Speech and Language Processing (Jurafsky & Martin, 3rd Ed. Draft)](https://web.stanford.edu/~jurafsky/slp3/)
-
-### Computing
-* **University Cluster:** [https://cfff.fudan.edu.cn/home](https://cfff.fudan.edu.cn/home)
-
-### Communication
-* **Course Repo:** [baojian/llm-26](https://github.com/baojian/llm-26)
-* **Discussion:** WeChat:
-
-### Academic Integrity
-
-* Please check [our policies](https://xxgk.fudan.edu.cn/_upload/article/files/f5/11/cc2c9a8c4f3ead2dbb00e4fa33c8/02adc618-b180-435c-b1bd-baf4cba3dd72.pdf). 
-
-**AI Policy:** Use of AI coding assistants **is permitted**. However, you should explicitly attribute the use of AI in your assignment.
