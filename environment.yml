@@ -1,0 +1,15 @@
+name: llm-26
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - jupyterlab
+  - conda-forge::ollama
+  - ollama-python
+  - spacy
+  - conda-forge::tiktoken
+  - pytorch
+  - torchaudio
+  - torchvision
+  - datasets
+  - transformers
