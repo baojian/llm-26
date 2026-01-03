@@ -1,0 +1,27 @@
+name: llm-26-gpu
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.12
+  - jupyterlab
+  - ipywidgets
+  - jupyterlab_widgets
+  - matplotlib
+  - networkx
+  - psutil
+  - spacy
+  - tiktoken
+  - datasets
+  - transformers
+  - modelscope
+  - addict
+  - spacy-model-en_core_web_sm
+  - spacy-model-zh_core_web_sm
+
+  # Force GPU PyTorch from pytorch channel
+  - pytorch::pytorch
+  - pytorch::torchvision
+  - pytorch::torchaudio
+  - pytorch-cuda=12.1
