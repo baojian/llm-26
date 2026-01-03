@@ -13,3 +13,12 @@ dependencies:
   - torchvision
   - datasets
   - transformers
+  - conda-forge::modelscope
+  - addict
+  - matplotlib
+  - networkx
+  - ipywidgets
+  - jupyterlab_widgets
+  - psutil
+  - spacy-model-en_core_web_sm
+  - spacy-model-zh_core_web_sm
