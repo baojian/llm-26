@@ -30,6 +30,38 @@
       font-size:16px; opacity:0.45; z-index:30; color:#000;
     }
   </style>
+
+    <style>
+  /* Make slides feel like PPT: left-aligned, bigger typography, nicer spacing */
+  .reveal .slides section {
+    text-align: left;
+  }
+
+  .outline-slide h2 {
+    color: var(--fudan-blue, #1f4e9a);
+    font-size: 64px;
+    font-weight: 800;
+    margin: 0 0 28px 0;
+    letter-spacing: 0.2px;
+  }
+
+  .outline-slide ul {
+    font-size: 40px;
+    line-height: 1.5;
+    margin: 0;
+    padding-left: 1.1em; /* bullet indent */
+  }
+
+  .outline-slide li {
+    margin: 14px 0;
+  }
+
+  /* Optional: reduce default Reveal margins so content uses space better */
+  .reveal .slides {
+    padding: 0;
+  }
+</style>
+    
 </head>
 
 <body>
@@ -47,15 +79,17 @@
           <div>School of Data Science, Fudan University</div>
           <div>03/05/2026</div>
         </div>
+        <div class="slide-footer-right">1</div>
       </section>
 
       <!-- other slides -->
-      <section>
+      <section class="outline-slide">
         <h2>Outline</h2>
         <ul>
           <li>What is NLP?</li>
           <li>Tokenization</li>
         </ul>
+        <div class="slide-footer-right">2</div>
       </section>
 
     </div>
@@ -75,8 +109,6 @@
       margin: 0.06
     });
   </script>
-
-  <!-- optional fixed page number -->
-  <div class="slide-footer-right">1</div>
+  
 </body>
 </html>
