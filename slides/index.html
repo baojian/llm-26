@@ -2,61 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NLP and LLMs — Slides</title>
-
-  <link rel="stylesheet" href="./dist/reset.css">
-  <link rel="stylesheet" href="./dist/reveal.css">
-  <link rel="stylesheet" href="./dist/theme/white.css">
-
-  <!-- your template css -->
-  <link rel="stylesheet" href="./myslides.css">
-
   <style>
-    /* homepage-specific styles */
-    .lec-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
+    :root { --fudan-blue:#1f4e9a; }
+    body{ font-family: system-ui; margin:0; padding:32px; background:#fff; color:#111; }
+    h1{ margin:0 0 18px; color:var(--fudan-blue); font-size:36px; font-weight:900; }
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; max-width: 980px; }
+    a.card{
+      display:block; padding:16px 18px; border:2px solid rgba(0,0,0,0.12);
+      border-radius:14px; text-decoration:none; color:inherit; background:#f6f7f9;
+      transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
     }
-    a.lec-card{
-      display:block;
-      padding: 18px 20px;
-      border: 2px solid rgba(0,0,0,0.12);
-      border-radius: 14px;
-      text-decoration:none;
-      color: inherit;
-      background: #f6f7f9;
-    }
-    a.lec-card:hover{
+    a.card:hover{
+      transform: translateY(-2px);
       border-color: rgba(31,78,154,0.55);
       box-shadow: 0 10px 18px rgba(0,0,0,0.08);
-      transform: translateY(-2px);
-      transition: 120ms ease;
     }
-    .lec-title{ font-size: 34px; font-weight: 900; color: var(--fudan-blue); }
-    .lec-sub{ font-size: 18px; opacity: 0.75; margin-top: 6px; }
+    .title{ font-size:24px; font-weight:900; color:var(--fudan-blue); }
+    .sub{ margin-top:6px; font-size:16px; opacity:0.75; }
   </style>
 </head>
-
 <body>
-<div class="reveal">
-  <div class="slides">
-    <section data-markdown="./index.md" data-separator="^\r?\n---\r?\n$"></section>
+  <h1>NLP and LLMs (CS40008.01) — Slides</h1>
+
+  <div class="grid">
+    <a class="card" href="./lecture-01-slides/index.html" target="_blank" rel="noopener">
+      <div class="title">Lecture 01</div>
+      <div class="sub">Introduction to NLP</div>
+    </a>
+
+    <a class="card" href="./lecture-02-slides/index.html" target="_blank" rel="noopener">
+      <div class="title">Lecture 02</div>
+      <div class="sub">Tokenization</div>
+    </a>
   </div>
-</div>
-
-<script src="./dist/reveal.js"></script>
-<script src="./plugin/markdown/markdown.js"></script>
-
-<script>
-  Reveal.initialize({
-    hash: true,
-    center: false,
-    slideNumber: false,
-    plugins: [ RevealMarkdown ]
-  });
-</script>
 </body>
 </html>
