@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body{ font-family: system-ui; margin:0; padding:16px; }
+    textarea{ width:100%; height:90px; }
+    button{ padding:10px 14px; margin-top:10px; }
+    pre{ white-space: pre-wrap; background:#f6f6f6; padding:12px; border-radius:10px; }
+  </style>
+</head>
+<body>
+  <textarea id="q" style="background:#f0f0f0; border:1px solid #cfcfcf; border-radius:10px; font-size:20px; line-height:1.4;">Send a message</textarea>
+  <button id="go" style="font-size:20px; line-height:1.4;">Ask Ollama (Qwen3:1.7B)</button>
+  <pre id="out"></pre>
+
+  <script>
+    const model = "qwen3:1.7b"; // change to your local model name
+
+    document.getElementById("go").onclick = async () => {
+      const prompt = document.getElementById("q").value;
+      const out = document.getElementById("out");
+      out.textContent = "Thinking with (qwen3:1.7b)...";
+
+      const r = await fetch("http://localhost:11434/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model, prompt, stream: false })
+      });
+
+      const j = await r.json();
+      out.textContent = j.response ?? JSON.stringify(j, null, 2);
+    };
+  </script>
+</body>
+</html>
