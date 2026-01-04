@@ -10,8 +10,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
-!lecture-01/slides/reveal/dist/**
 downloads/
 eggs/
 .eggs/
