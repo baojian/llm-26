@@ -1,27 +1,24 @@
-## NLP and LLMs (CS40008.01) Lecture 01 – Introduction to NLP
+<section class="title">
+  <div class="title-main">NLP and LLMs (CS40008.01)</div>
+  <div class="title-sub">Lecture 01 – Introduction to NLP</div>
 
-Baojian Zhou
-
-NLP and LLMs (CS40008.01)
-
-School of Data Science, Fudan University
-
-03/05/2026
+  <div class="title-meta">
+    <div>Baojian Zhou</div>
+    <div>NLP and LLMs (CS40008.01)</div>
+    <div>School of Data Science, Fudan University</div>
+    <div>03/05/2026</div>
+  </div>
+</section>
 
 ---
 
-## About me
+<section class="ppt">
+  <div class="ppt-title">About me</div>
+  <div class="ppt-line"></div>
 
-Email:  bjzhou@fudan.edu.cn
-
-Website :  https://baojian.github.io/  
-
-Location :
-
-South-401,   Computing Center 
-
-Office hour: Wed.   10:00am-11:30am
-
-Research interests : 
-
-Machine learning on graphs,   optimization,   text mining   (e.g.,   using   word   embeddings),   diffusion models, and   in-context-learning   on   LLMs
+  <p><b>Email:</b> bjzhou@fudan.edu.cn</p>
+  <p><b>Website:</b> <a href="https://baojian.github.io/" target="_blank" rel="noopener">https://baojian.github.io/</a></p>
+  <p><b>Location:</b> South-401, Computing Center</p>
+  <p><b>Office hour:</b> Wed. 10:00am–11:30am</p>
+  <p><b>Research interests:</b> Machine learning on graphs, optimization, text mining (e.g., word embeddings), diffusion models, and in-context learning on LLMs.</p>
+</section>

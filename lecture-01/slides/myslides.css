@@ -1,0 +1,93 @@
+:root{
+  --fudan-blue:#1f4e9a;
+  --muted:#cfcfcf;
+}
+
+/* more PPT-like: left aligned */
+.reveal .slides section { text-align: left; }
+.reveal .slides { padding: 0; }
+
+/* slide number */
+.reveal .slide-number{
+  right: 18px;
+  bottom: 10px;
+  font-size: 16px;
+  opacity: 0.55;
+  color: #000;
+  background: transparent;
+}
+
+/* TITLE SLIDE */
+.title { text-align: center !important; }
+.title-main{
+  color: var(--fudan-blue);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1.15;
+  margin: 80px 20px 12px;
+}
+.title-sub{
+  color: var(--fudan-blue);
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 1.08;
+  margin: 0;
+}
+.title-meta{
+  margin-top: 210px;
+  color: var(--fudan-blue);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.65;
+}
+
+/* PPT SLIDE HEADER */
+.ppt{ padding: 6px 6px; }
+.ppt-title{
+  font-size: 48px;
+  font-weight: 650;
+  color: var(--fudan-blue);
+  margin: 0 0 6px 0;
+}
+.ppt-line{
+  height: 6px;
+  background: var(--fudan-blue);
+  margin: 0 0 18px 0;
+}
+
+/* SIMPLE TWO-COLUMN LAYOUT */
+.cols{
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+.cols > div{ flex: 1 1 auto; }
+.cols .right{
+  flex: 0 0 400px;
+  text-align: center;
+}
+.portrait{
+  width: 200px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.caption{
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+/* BULLETS */
+.bullets{
+  list-style: disc;
+  padding-left: 1.05em;
+  margin: 0;
+}
+.bullets.big{
+  font-size: 64px;
+  line-height: 1.8;
+  font-weight: 700;
+}
+.bullets li{ margin: 18px 0; }
+.bullets li.muted{ color: var(--muted); }
