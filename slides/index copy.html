@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lecture 01 - Introduction to NLP</title>
+
+  <link rel="stylesheet" href="./reveal/dist/reveal.css" />
+  <link rel="stylesheet" href="./reveal/dist/theme/white.css" />
+  <link rel="stylesheet" href="./myslides.css" />
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!-- Load Markdown from your pandoc output -->
+      <section
+        data-markdown="index.md"
+        data-separator="^\r?\n---\r?\n$"
+        data-separator-vertical="^\r?\n--\r?\n$"
+        data-separator-notes="^Note:"
+      ></section>
+    </div>
+  </div>
+
+  <script src="./reveal/dist/reveal.js"></script>
+  <script src="./reveal/plugin/markdown/markdown.js"></script>
+  <script src="./reveal/plugin/notes/notes.js"></script>
+
+  <script>
+    // Check if plugins are loaded
+    if (typeof RevealMarkdown === 'undefined' || typeof RevealNotes === 'undefined') {
+      console.error('Reveal.js plugins failed to load. Check the paths to markdown.js and notes.js');
+    }
+
+    Reveal.initialize({
+      hash: true,
+      plugins: [ RevealMarkdown, RevealNotes ],
+      markdown: {
+        separator: '^\r?\n---\r?\n$',
+        verticalSeparator: '^\r?\n--\r?\n$',
+        notesSeparator: '^Note:'
+      }
+    }).then(() => {
+      console.log('Reveal.js initialized successfully');
+    }).catch(error => {
+      console.error('Reveal.js initialization failed:', error);
+    });
+  </script>
+</body>
+</html>

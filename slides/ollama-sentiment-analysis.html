@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body{ font-family: system-ui; margin:0; padding:16px; }
+    textarea{ width:100%; height:90px; }
+    button{ padding:10px 14px; margin-top:10px; }
+    pre{ white-space: pre-wrap; background:#f6f6f6; padding:12px; border-radius:10px; }
+  </style>
+</head>
+<body>
+  <textarea id="q" style="background:#f0f0f0; border:1px solid #cfcfcf; border-radius:10px; font-size:20px; line-height:1.1; height:160px; padding:5px;">Send a message</textarea>
+  <button id="go" style="font-size:20px; border-radius:10px; line-height:1.3;">Ask Ollama (Qwen3:1.7B)</button>
+  <pre id="out"></pre>
+
+  <script>
+    const q = document.getElementById("q");
+    const out = document.getElementById("out");
+    const params = new URLSearchParams(window.location.search);
+    const task = params.get("task") || "chat";
+
+    function buildPromptForSentiment(text){
+        return `Classify the sentiment as Positive / Negative / Neutral.\n` +
+            `Return JSON with keys: label, confidence (0-1), reason (<=12 words).\n` +
+            `Text: "${text}"`;
+    }
+
+    // Listen to parent slide clicks
+    window.addEventListener("message", (event) => {
+        if (event.origin !== window.location.origin) return;
+        const msg = event.data || {};
+        if (msg.type === "setExample") {
+        const t = (msg.text || "").trim();
+        q.value = (task === "sentiment") ? buildPromptForSentiment(t) : t;
+        // optional: auto-run after selecting
+        // askOllama();
+        }
+    });
+
+    // --- your existing ask button logic ---
+    const model = "qwen3:1.7b"; // change to your model
+    async function askOllama() {
+        const prompt = q.value;
+        out.textContent = "Thinking...";
+
+        const r = await fetch("http://localhost:11434/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model, prompt, stream: false })
+        });
+
+        const j = await r.json();
+        out.textContent = j.response ?? JSON.stringify(j, null, 2);
+    }
+
+    document.getElementById("go").onclick = askOllama;
+  </script>
+</body>
+</html>
