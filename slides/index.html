@@ -3,112 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lecture 01</title>
+  <title>NLP and LLMs — Slides</title>
 
-  <link rel="stylesheet" href="./dist/reveal.css" />
-  <link rel="stylesheet" href="./dist/theme/white.css" />
-  <link rel="stylesheet" href="./myslides.css" />
+  <link rel="stylesheet" href="./reveal/dist/reset.css">
+  <link rel="stylesheet" href="./reveal/dist/reveal.css">
+  <link rel="stylesheet" href="./reveal/dist/theme/white.css">
+
+  <!-- your template css -->
+  <link rel="stylesheet" href="./myslides.css">
+
+  <style>
+    /* homepage-specific styles */
+    .lec-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+    a.lec-card{
+      display:block;
+      padding: 18px 20px;
+      border: 2px solid rgba(0,0,0,0.12);
+      border-radius: 14px;
+      text-decoration:none;
+      color: inherit;
+      background: #f6f7f9;
+    }
+    a.lec-card:hover{
+      border-color: rgba(31,78,154,0.55);
+      box-shadow: 0 10px 18px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+      transition: 120ms ease;
+    }
+    .lec-title{ font-size: 34px; font-weight: 900; color: var(--fudan-blue); }
+    .lec-sub{ font-size: 18px; opacity: 0.75; margin-top: 6px; }
+  </style>
 </head>
 
 <body>
-  <div class="reveal">
-    <div class="slides">
-      <!-- Load Markdown from your pandoc output -->
-      <section
-        data-markdown="index.md"
-        data-separator="^\r?\n---\r?\n$"
-        data-separator-vertical="^\r?\n--\r?\n$"
-        data-separator-notes="^Note:"
-      ></section>
-    </div>
+<div class="reveal">
+  <div class="slides">
+    <section data-markdown="./index.md" data-separator="^\r?\n---\r?\n$"></section>
   </div>
+</div>
 
-  <script src="./dist/reveal.js"></script>
-  <script src="./plugin/markdown/markdown.js"></script>
-  <script src="./plugin/notes/notes.js"></script>
-  <script src="plugin/highlight/highlight.js"></script>
-  <script src="plugin/math/math.js"></script>
-  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+<script src="./reveal/dist/reveal.js"></script>
+<script src="./reveal/plugin/markdown/markdown.js"></script>
 
-  <script>
-	function wireSentimentExamples() {
-		const frame = document.getElementById("ollamaFrame");
-		if (!frame) return;
-
-		document.querySelectorAll(".sa-ex").forEach(btn => {
-		btn.addEventListener("click", () => {
-			const text = btn.getAttribute("data-text") || "";
-			// Send to iframe (same-origin expected)
-			frame.contentWindow.postMessage(
-			{ type: "setExample", text },
-			window.location.origin
-			);
-		});
-		});
-	}
-
-	if (window.Reveal && Reveal.on) {
-		Reveal.on("ready", wireSentimentExamples);
-		Reveal.on("slidechanged", wireSentimentExamples);
-	} else {
-		document.addEventListener("DOMContentLoaded", wireSentimentExamples);
-	}
-  </script>
-
-  <script>
-	function wireExampleButtons(frameId, buttonSelector) {
-		const frame = document.getElementById(frameId);
-		if (!frame) return;
-		document.querySelectorAll(buttonSelector).forEach(btn => {
-		btn.addEventListener("click", () => {
-			const text = btn.getAttribute("data-text") || "";
-			frame.contentWindow.postMessage(
-			{ type: "setExample", text },
-			window.location.origin
-			);
-		});
-		});
-	}
-
-	function wireAllExampleButtons() {
-		wireExampleButtons("ollamaFrameMT", ".mt-left .sa-ex");
-		// (keep your sentiment one too if you have it)
-		// wireExampleButtons("ollamaFrame", ".sa-left .sa-ex");
-	}
-
-	if (window.Reveal && Reveal.on) {
-		Reveal.on("ready", wireAllExampleButtons);
-		Reveal.on("slidechanged", wireAllExampleButtons);
-	} else {
-		document.addEventListener("DOMContentLoaded", wireAllExampleButtons);
-	}
-  </script>
-
-
-  <script>
-    // Check if plugins are loaded
-    if (typeof RevealMarkdown === 'undefined' || typeof RevealNotes === 'undefined') {
-      console.error('Reveal.js plugins failed to load. Check the paths to markdown.js and notes.js');
-    }
-
-    Reveal.initialize({
-		hash: true,
-    	slideNumber: "c/t",
-		center: false,
-		width: 1366,
-		height: 768,
-		margin: 0.02,
-		plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3 ],
-		markdown: {
-			separator: '^\r?\n---\r?\n$',
-			verticalSeparator: '^\r?\n--\r?\n$',
-			notesSeparator: '^Note:'
-		}
-    }).then(() => {
-      console.log('Reveal.js initialized successfully');
-    }).catch(error => {
-      console.error('Reveal.js initialization failed:', error);
-    });
-  </script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    center: false,
+    slideNumber: false,
+    plugins: [ RevealMarkdown ]
+  });
+</script>
 </body>
 </html>
