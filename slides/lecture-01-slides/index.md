@@ -790,7 +790,7 @@
 ---
 
 <section class="ppt">
-  <div class="ppt-title">NLP history (1947-1969)</div>
+  <div class="ppt-title">NLP history (1947–1969)</div>
   <div class="ppt-line"></div>
 
   <div class="twocol" style="--left: 65%;">
@@ -918,10 +918,108 @@
           <a href="http://baojian.github.io/llm-26/papers/Does_GPT-4_pass_the_Turing_test-2023.pdf" target="_blank" rel="noopener">Does GPT-4 pass the Turing test?</a>
         </li>
         <li class="fragment" data-fragment-index="7">
-          <a href="#" target="_blank" rel="noopener">Large Language Models Pass the Turing Test</a>
+          <a href="http://baojian.github.io/llm-26/papers/Large_Language_Models_Pass_the_Turing_Test-2025.pdf" target="_blank" rel="noopener">Large Language Models Pass the Turing Test</a>
         </li>
       </ul>
     </div>
+  </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">NLP history (2018–Now): LLMs</div>
+  <div class="ppt-line"></div>
+
+  <!-- 3-image layout: left (upper+lower), right (single) -->
+  <div style="
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:16px;
+    margin-top:14px;
+    height:240px;
+  ">
+    <!-- LEFT COLUMN: two stacked images -->
+    <div style="display:grid; grid-template-rows: 1fr 1fr; gap:16px; min-width:0;">
+      <!-- LEFT TOP -->
+      <div style="
+        border:2px solid rgba(0,0,0,0.12);
+        border-radius:8px;
+        background:#fff;
+        box-shadow:0 10px 22px rgba(0,0,0,0.08);
+        overflow:hidden;
+        height:250px;
+        display:flex; align-items:center; justify-content:center;
+        padding:10px;
+      ">
+        <img src="media/ppt//media/attention-paper.png"
+             style="width:100%; height:100%; object-fit:contain;" />
+      </div>
+      <!-- LEFT BOTTOM -->
+      <div style="
+        border:2px solid rgba(0,0,0,0.12);
+        border-radius:8px;
+        background:#fff;
+        box-shadow:0 10px 22px rgba(0,0,0,0.08);
+        overflow:hidden;
+        height:240px;
+        display:flex; align-items:center; justify-content:center;
+        padding:12px;
+      ">
+        <img src="media/ppt//media/image15.jpeg"
+             style="width:100%; height:100%; object-fit:contain;" />
+      </div>
+      <div style="font-size:18px; opacity:.75; text-align:left; margin-right:2px;">
+        Paper Link:
+        <a href="https://baojian.github.io/llm-26/papers/Attention_Is_All_You_Need-2017.pdf"
+           target="_blank" rel="noopener">Attention Is All You Need (2017)</a>
+      </div>
+    </div>
+    <!-- RIGHT COLUMN: single large image + paper link under it -->
+    <div style="display:flex; flex-direction:column; gap:10px; min-width:0;">
+      <div style="
+        border:2px solid rgba(0,0,0,0.12);
+        border-radius:8px;
+        background:#fff;
+        box-shadow:0 10px 22px rgba(0,0,0,0.08);
+        overflow:hidden;
+        height:600px;
+        width:550px;
+        display:flex; align-items:center; justify-content:center;
+        padding:12px;
+      ">
+        <img src="media/ppt/media/image12.png"
+             style="width:100%; height:100%; object-fit:contain;" />
+      </div>
+    </div>
+  </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">NLP history (2018–Now): LLMs</div>
+  <div class="ppt-line"></div>
+  <div style="
+    margin-top:18px;
+    width:90%;
+    height:600px;
+    border:2px solid rgba(0,0,0,0.12);
+    border-radius:18px;
+    background:rgba(255,255,255,0.92);
+    box-shadow:0 10px 22px rgba(0,0,0,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;">
+  <img src="media/ppt/media/image22.png" style="max-width:100%; max-height:100%; object-fit:contain;" />
+  </div>
+  <div style="height:20px;"></div>
+  <div style="font-size:18px; opacity:.75; text-align:left; margin-right:2px;">
+        Paper Link:
+        <a href="https://baojian.github.io/llm-26/papers/A_Survey_of_Large_Language_Models-2023.pdf"
+       target="_blank" rel="noopener">
+      A Survey of Large Language Models (2023)</a>
   </div>
 </section>
 
@@ -1969,6 +2067,278 @@ $$
   <li class="muted">Basics for Text Preprocessing</li>
   <li class="active">Text Tokenization</li>
   </ul>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">Tokenization & Subword Tokenization</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 45%; margin-top:10px;">
+    <!-- LEFT: Tokenization -->
+    <div class="text">
+      <ul class="outline-bullets" style="margin-top:6px; font-size:30px; line-height:1.25;">
+        <li>
+          <b>Tokenization</b> breaks text into <b>tokens</b> (words / subwords / chars),
+          which become the model’s input.
+        </li>
+      </ul>
+      <div style="height:10px;"></div>
+      <div style="font-size:28px; line-height:1.25;">
+        <div style="font-weight:900;">Example (<span style="opacity:.6;">Tools: <a href="https://platform.openai.com/tokenizer" target="_blank" rel="noopener">OpenAI Tokenizer</a> (e.g., GPT-4o)</span>)</div>
+        <div style="margin-top:6px;">
+          <span style="font-weight:900;">Input:</span> 
+          <span style="color:#1f4e9a; font-weight:900;">What</span>
+          <span style="color:blue; font-weight:900;"> is </span>
+          <span style="color:#f39c12; font-weight:900;">token</span><span style="color:#2aa84a; font-weight:900;">ization</span><span style="font-weight:900;">?</span>
+        </div>
+        <div style="margin-top:8px;">
+          <span style="font-weight:900;">Token IDs:</span>
+          <span style="color:#1f4e9a; font-weight:900;">4827</span>
+          <span style="color:blue; font-weight:900;"> 382 </span>
+          <span style="color:#f39c12; font-weight:900;">6602</span>
+          <span style="color:#2aa84a; font-weight:900;"> 2860</span>
+          <span style="font-weight:900;"> 30</span>
+        </div>
+        <div style="height:10px;"></div>
+        <div style="height:10px;"></div>
+        <div style="font-weight:900; font-size:28px;">Three common types</div>
+        <ul style="margin:6px 0 0 0; padding-left:1.1em; font-size:26px; line-height:1.25;">
+          <li>Word tokenization</li>
+          <li><b>Subword tokenization</b></li>
+          <li>Character tokenization</li>
+        </ul>
+        <div style="height:8px;"></div>
+        <div style="font-size:24px; opacity:.9;">
+          <a href="https://huggingface.co/docs/transformers/tokenizer_summary"
+             target="_blank" rel="noopener">
+            Hugging Face: Tokenizers summary
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT: Subword tokenization -->
+    <div class="fig">
+      <ul class="outline-bullets" style="margin-top:6px; font-size:30px; line-height:1.25;">
+        <li>
+          <b>Idea:</b> go beyond whitespace / single characters.
+          Tokens can be <b>parts of words</b> or whole words.
+        </li>
+        <li>
+          <b>Why:</b> handles rare words, morphology, and open vocabulary more robustly.
+        </li>
+      </ul>
+      <div style="height:10px;"></div>
+      <div style="font-size:28px; line-height:1.25;">
+        <div style="font-weight:900;">Three common algorithms</div>
+        <ul style="margin:6px 0 0 0; padding-left:1.1em; font-size:26px;">
+          <li><b>BPE</b> (Sennrich et al., 2016)</li>
+          <li><b>Unigram</b> (Kudo, 2018)</li>
+          <li><b>WordPiece</b> (Schuster & Nakajima, 2012)</li>
+        </ul>
+        <div style="height:10px;"></div>
+        <div style="font-weight:900;">Two parts (conceptual view)</div>
+        <ul style="margin:6px 0 0 0; padding-left:1.1em; font-size:26px; line-height:1.25;">
+          <li>
+            <span style="color:#2aa84a; font-weight:900;">Token learner</span>:
+            induce a vocabulary from a training corpus
+            <span style="opacity:.85;">(often add end-of-word symbol “_”)</span>.
+          </li>
+          <li>
+            <span style="color:#2aa84a; font-weight:900;">Token segmenter</span>:
+            tokenize new text using that vocabulary.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">Subword tokenization (BPE): token learner</div>
+  <div class="ppt-line"></div>
+
+  <!-- 35% left + 65% right -->
+  <div class="twocol" style="--left:38%; margin-top:12px; gap:18px;">
+    <!-- LEFT: key idea -->
+    <div class="text">
+      <ul class="outline-bullets" style="margin-top:6px; font-size:30px; line-height:1.35;">
+        <li><b>Goal</b></br> learn a subword vocabulary $V$ from a training corpus</li>
+        <li><b>Setup</b></br> add word boundary symbol <span class="mono">"_"</span> so that won't merge two words)</li>
+        <li><b>Iterate</b></br> merge the most frequent adjacent pair and form new corpus</li>
+        <li><b>Stop</b><br/>After $k$ merges (or $|V|$ reaches the target size), return the ordered merge rules and final vocabulary $V$.</li>
+        <div style="margin-top:14px; font-size:22px; opacity:.8;">
+      Toy setting: start from <b>characters</b>; <div style="height:10px;"></div>
+      In practice, BPE often starts from <b>bytes</b>.
+      </div>
+      </ul>
+    </div>
+    <!-- RIGHT: pseudocode (65%) -->
+    <div class="fig">
+      <div style="
+        border:2px solid rgba(0,0,0,0.12);
+        border-radius:14px;
+        background:#fff;
+        height:450px;
+        width:780px; 
+        box-shadow:0 10px 22px rgba(0,0,0,0.08);
+        padding:14px 20px;
+      ">
+        <pre style="
+          margin:0;
+          white-space:pre;
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                       'Liberation Mono','Courier New', monospace;
+          font-size:21.5px;
+          line-height:1.3;
+          height:450px;
+          width:780px; 
+        "><code>function BPE_TRAIN (corpus C, merges k):
+  # Step 0: add end-of-word marker
+  C := append "_" to each word in C   (e.g., "word_")
+  # Step 1: initialize V as characters (or bytes)
+  V := all unique symbols appearing in C
+  for t = 1 to k:
+    # count adjacent symbol pairs over the whole corpus
+    P := counts of all adjacent pairs (a, b) in C
+      # choose the most frequent pair
+      (a*, b*) := argmax_{(a,b)} P[ (a,b) ]
+      # create merged symbol and add to vocabulary
+      ab := concat(a*, b*)
+      V := V ∪ {ab}
+      # replace all occurrences of a* b* with ab in C
+      C := merge_pair(C, a*, b*, ab)
+  return V, merges</code></pre>
+      </div>
+      <div class="fig" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;">
+  <!-- bottom explanation -->
+  <div style="
+    width: min(820px, 100%);
+    font-size:21px;
+    line-height:1.35;
+    opacity:.9;
+    width:780px;
+    border-left:6px solid #1f4e9a;
+    padding:8px 8px;
+    background:rgba(31,78,154,0.06);
+    border-radius:10px;
+  ">
+  <div style="height:5px;"></div>
+    <b>Iteration (repeat K times):</b><div style="height:5px;"></div>
+    <ul style="margin:1px 0 0 0; padding-left:1.4em; height:40px">
+      <li>Count adjacent symbol pairs in the corpus</li>
+      <li>Merge the most frequent pair into a new symbol</li>
+      <li>Update the corpus representation + vocabulary</li>
+    </ul>
+  </div>
+  </div>
+    </div>
+  </div>
+  
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">BPE Token Segmenter (Encoding / Inference)</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 58%; gap:18px; margin-top:10px;">
+    <!-- LEFT: explanation -->
+    <div class="text" style="min-width:0;">
+      <ul class="outline-bullets" style="margin:0; font-size:30px; line-height:1.28;">
+        <li>
+          <b>Input</b></br>learned <span class="fudanblue">merge list</span> (ordered) + vocabulary $V$<div style="height:8px;"></div>
+        </li>
+        <li>
+          <b>Initialize</b></br>append boundry symbol “_” at the end of each word; then split each word into characters<div style="height:8px;"></div>
+        </li>
+        <li>
+          <b>Apply merges</b></br>for each merge <span class="fudanblue">(a,b→ab)</span> in the learned order,
+          replace every adjacent <span class="fudanblue">a b</span> in the current symbol sequence<div style="height:8px;"></div>
+        </li>
+        <li>
+          <b>Key point</b></br>unlike training, test frequencies don’t matter — we just replay the ordered merges<div style="height:8px;"></div>
+        </li>
+      </ul>
+      <div style="height:10px;"></div>
+      <div style="font-size:26px; opacity:.9; line-height:1.25;">
+        <span style="font-weight:900;">Result</span></br>
+        tokens often capture frequent subwords/morphemes (e.g., <span class="fudanblue">-er</span>, <span class="fudanblue">-est</span>).
+      </div>
+      <div style="margin-top:10px; font-size:22px; opacity:.8;">
+        Try it online:
+        <a href="https://platform.openai.com/tokenizer" target="_blank" rel="noopener">OpenAI Tokenizer</a>,
+        <a href="https://tiktokenizer.vercel.app/" target="_blank" rel="noopener">tiktokenizer</a>
+      </div>
+    </div>
+    <!-- RIGHT: dynamic example -->
+    <div class="fig" style="min-width:0;">
+      <div style="
+        border:2px solid rgba(0,0,0,0.10);
+        border-radius:16px;
+        padding:14px 16px;
+        background:rgba(255,255,255,0.92);
+        box-shadow:0 10px 22px rgba(0,0,0,0.08);
+      ">
+        <div style="font-size:28px; font-weight:900; margin-bottom:10px;">
+          Example (press →)</br>
+        </div>
+        <span style="font-size:30px" >tokenize the word:</br> lower_</span>
+        <div style="font-size:30px; opacity:.8; margin-bottom:10px;">Assume ordered merges:</br><span class="fudanblue">l o→lo</span>, <span class="fudanblue">lo w→low</span>,
+          <span class="fudanblue">e r→er</span>, <span class="fudanblue">er _→er_</span>
+        </div>
+        <!-- big monospace “sequence” line -->
+        <div style="
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,'Liberation Mono','Courier New', monospace;
+          font-size:30px;
+          font-weight:900;
+          line-height:1.35;
+          letter-spacing:1px;
+        ">
+          <div>
+            l&nbsp;o&nbsp;w&nbsp;e&nbsp;r&nbsp;_
+          </div>
+          <div class="fragment" data-fragment-index="1" style="margin-top:6px;">
+            <span class="fudanblue">lo</span>&nbsp;w&nbsp;e&nbsp;r&nbsp;_
+            <span style="font-size:18px; font-weight:600; opacity:.75; margin-left:10px;">merge: l o → lo</span>
+          </div>
+          <div class="fragment" data-fragment-index="2" style="margin-top:6px;">
+            <span class="fudanblue">low</span>&nbsp;e&nbsp;r&nbsp;_
+            <span style="font-size:18px; font-weight:600; opacity:.75; margin-left:10px;">merge: lo w → low</span>
+          </div>
+          <div class="fragment" data-fragment-index="3" style="margin-top:6px;">
+            low&nbsp;<span class="fudanblue">er</span>&nbsp;_
+            <span style="font-size:18px; font-weight:600; opacity:.75; margin-left:10px;">merge: e r → er</span>
+          </div>
+          <div class="fragment" data-fragment-index="4" style="margin-top:6px;">
+            low&nbsp;<span class="fudanblue">er_</span>
+            <span style="font-size:18px; font-weight:600; opacity:.75; margin-left:10px;">merge: er _ → er_</span>
+          </div>
+        </div>
+        <div class="fragment" data-fragment-index="5"
+             style="margin-top:14px; font-size:26px; font-weight:900;">
+          Final tokens: <span class="fudanblue">[ "low", "er_" ]</span>
+        </div>
+      </div>
+    </div>
+    <div class="fragment" data-fragment-index="6" style="
+        margin-top:1px;
+        border:2px solid rgba(0,0,0,0.08);
+        border-radius:14px;
+        padding:10px 14px;
+        width:1100px;
+        background:rgba(255,255,255,0.85);
+        font-size:22px;
+        line-height:1.25;
+      ">
+        Another typical outcome: <span class="fudanblue">new er_</span> may become one token
+        <span class="fudanblue">[ "newer_" ]</span> if the merge list contains <span class="fudanblue">new + er_ → newer_</span>.
+      </div>
+  </div>
 </section>
 
 ---
