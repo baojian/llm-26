@@ -313,25 +313,10 @@
 <section class="ppt">
   <div class="ppt-title">Task – Text → Image (Stable Diffusion)</div>
   <div class="ppt-line"></div>
-
-  <div class="twocol" style="--left: 38%;">
-    <div>
-      <div style="font-size:26px; font-weight:900; margin-bottom:10px;">Try prompts:</div>
-      <ul style="font-size:22px; line-height:1.4;">
-        <li>“A Shiba Inu wearing a graduation cap, studio lighting”</li>
-        <li>“Fudan University campus at sunset, watercolor style”</li>
-        <li>“A robot reading a book in a library, cinematic”</li>
-      </ul>
-      <div style="font-size:18px; opacity:.75; margin-top:10px;">
-        (Right panel generates an image locally.)
-      </div>
-    </div>
-    <div>
-      <iframe
-        src="./sd-txt2img-demo.html?p=A%20Shiba%20Inu%20wearing%20a%20graduation%20cap%2C%20studio%20lighting"
-        style="width:100%; height:640px; border:0; border-radius:12px;"></iframe>
-    </div>
-  </div>
+  <iframe
+    src="./sd-demo.html"
+    style="width:100%; height:600px; border:0; border-radius:12px; background:#fff;">
+  </iframe>
 </section>
 
 ---
@@ -697,6 +682,113 @@
 
 ---
 
+<!-- Slide 1: Ambiguity -->
+<section class="ppt">
+  <div class="ppt-title">Why NLP Was Hard (Pre-LLMs): Ambiguity</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 46%;">
+    <!-- LEFT -->
+    <div class="text">
+      <ul class="outline-bullets" style="margin-top:10px;">
+        <li class="fragment"><b>Ambiguity is everywhere</b>: the same words/structure can mean different things.</li>
+        <li class="fragment"><b>Syntax ambiguity</b> (who did what to whom?)</li>
+        <li class="fragment"><b>Semantic / pragmatic ambiguity</b> (what is implied?)</li>
+        <li class="fragment"><b>Cross-lingual ambiguity</b> exists in both English and Chinese.</li>
+      </ul>
+      <div class="fragment" style="margin-top:18px; font-size:26px; opacity:.85;">
+        Pre-LLM pipelines relied on handcrafted rules/features → brittle under ambiguity.
+      </div>
+    </div>
+    <!-- RIGHT -->
+    <div class="fig">
+      <div style="
+        border:2px solid rgba(0,0,0,0.10);
+        border-radius:16px;
+        padding:16px 18px;
+        background:rgba(255,255,255,0.92);
+        box-shadow:0 10px 22px rgba(0,0,0,0.08);
+        font-size:26px;
+        line-height:1.35;
+      ">
+        <div style="font-weight:900; color:#1f4e9a; margin-bottom:10px;">English examples</div>
+        <div class="fragment" style="margin-bottom:10px;">
+          “A man saw a boy <b>with a telescope</b>.”<br/>
+          <span style="opacity:.8;">Who had the telescope?</span>
+        </div>
+        <div class="fragment" style="margin-bottom:10px;">
+          What does the Mighty Dragon mean？<br/>
+          <span style="opacity:.8;">Mighty Dragon has multiple meanings.</span>
+        </div>
+        <div class="fragment" style="margin-bottom:10px;">
+          “He has <b>quit smoking</b>.”<br/>
+          <span style="opacity:.8;">It implies he smoked before.</span>
+        </div>
+        <div class="fragment" style="font-weight:900; color:#1f4e9a; margin:14px 0 8px;">Chinese examples</div>
+        <div class="fragment" style="opacity:.92;">
+          冬天，能穿多少穿多少；夏天，能穿多少穿多少；
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+---
+
+<!-- Slide 2: Beyond ambiguity -->
+<section class="ppt">
+  <div class="ppt-title">Why NLP Was Hard: Messy Text / Reasoning</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 65%;">
+    <!-- LEFT -->
+    <div class="text">
+      <ul class="outline-bullets" style="margin-top:10px; font-size:26px; line-height:1.5;">
+        <li style="margin:10px 0; class="fragment"><b>Non-standard text</b><br/> social media spelling, emojis, hashtags, code-switching.</li>
+        <li style="margin:10px 0; class="fragment"><b>Segmentation</b><br/> what is a “word”? (esp. for Chinese / noisy text)</li>
+        <li style="margin:10px 0; class="fragment"><b>Idioms & figurative language</b><br/> meaning ≠ literal words.</li>
+        <li style="margin:10px 0; class="fragment"><b>Neologisms</b><br/> new words appear faster than rules/dictionaries.</li>
+        <li style="margin:10px 0; class="fragment"><b>Entity names</b><br/> titles vs common words (“Let It Be”, “A Bug’s Life”).</li>
+        <li style="margin:10px 0; class="fragment"><b>World knowledge</b><br/> understanding requires facts beyond the sentence.</li>
+        <li style="margin:10px 0; class="fragment"><b>Reasoning pitfalls</b><br/> valid form ≠ valid meaning (adversarial examples).</li>
+      </ul>
+    </div>
+    <!-- RIGHT -->
+    <div class="fig">
+      <div style="
+        border:2px solid rgba(0,0,0,0.10);
+        border-radius:16px;
+        padding:16px 18px;
+        background:rgba(255,255,255,0.92);
+        box-shadow:0 10px 22px rgba(0,0,0,0.08);
+        font-size:25px;
+        line-height:1.35;
+      ">
+        <div style="font-weight:900; color:#1f4e9a; margin-bottom:10px;">Non-standard text</div>
+        <div class="fragment" style="opacity:.95; margin-bottom:12px;">
+          Great job @justinbieber! Were SOO PROUD of what youve accomplished!<br/>
+          U taught us 2 #neversaynever ...
+        </div>
+        <div style="font-weight:900; color:#1f4e9a; margin:10px 0 8px;">Idioms / neologisms</div>
+        <div class="fragment" style="opacity:.95; margin-bottom:12px;">
+           · dark horse · lose face · break a leg <br/>
+           · bite the bullet · unfriend <br/>
+           · Retweet · bromance · 鸡娃
+        </div>
+        <div style="font-weight:900; color:#1f4e9a; margin:10px 0 8px;">Reasoning trap</div>
+        <div class="fragment" style="opacity:.95;">
+          A penny is better than nothing.<br/>
+          Nothing is better than world peace.<br/>
+          Therefore, a penny is better than world peace ??? 
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+---
+
 <section class="ppt">
   <div class="ppt-title">NLP history (1947-1969)</div>
   <div class="ppt-line"></div>
@@ -721,6 +813,115 @@
     </div>
   </div>
 
+  </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">NLP history (1947–1969)</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 50%; margin-top:6px;">
+    <!-- LEFT: Turing test diagram (dynamic) -->
+    <div class="text">
+      <div style="font-size:34px; font-weight:900; text-align:center; margin:6px 0 8px 0;">
+        Turing test </br> (A=machine, B=human, C=judge)
+      </div>
+      <svg viewBox="0 0 720 440" style="width:100%; height:auto;">
+        <!-- Divider -->
+        <line x1="360" y1="60" x2="360" y2="265" stroke="rgba(0,0,0,0.35)" stroke-width="4"
+              class="fragment" data-fragment-index="2"></line>
+        <!-- ====== A (machine) ====== -->
+        <g class="fragment" data-fragment-index="1">
+          <rect x="110" y="90" width="150" height="120" rx="18" fill="#fff" stroke="rgba(0,0,0,0.35)" stroke-width="4"></rect>
+          <rect x="125" y="105" width="120" height="85" rx="10" fill="rgba(31,78,154,0.06)" stroke="rgba(0,0,0,0.12)" stroke-width="2"></rect>
+          <text x="185" y="165" text-anchor="middle" font-size="64" font-weight="900" fill="#d00">A</text>
+          <rect x="150" y="215" width="70" height="18" rx="8" fill="rgba(0,0,0,0.15)"></rect>
+          <rect x="135" y="235" width="100" height="18" rx="8" fill="rgba(0,0,0,0.12)"></rect>
+          <text x="185" y="78" text-anchor="middle" font-size="22" font-weight="900" fill="rgba(0,0,0,0.75)">
+            Machine
+          </text>
+        </g>
+        <!-- ====== B (human) ====== -->
+        <g class="fragment" data-fragment-index="1">
+          <!-- simple "person" icon instead of monitor -->
+          <circle cx="535" cy="130" r="30" fill="rgba(0,0,0,0.18)"></circle>
+          <rect x="485" y="165" width="100" height="55" rx="26" fill="rgba(0,0,0,0.18)"></rect>
+          <text x="535" y="142" text-anchor="middle" font-size="64" font-weight="900" fill="#d00">B</text>
+          <text x="535" y="78" text-anchor="middle" font-size="22" font-weight="900" fill="rgba(0,0,0,0.75)">
+            Human
+          </text>
+        </g>
+        <!-- Papers from A/B -->
+        <g class="fragment" data-fragment-index="3">
+          <!-- left paper -->
+          <rect x="175" y="258" width="60" height="40" rx="6" fill="#fff" stroke="rgba(0,0,0,0.25)" stroke-width="3"></rect>
+          <line x1="185" y1="272" x2="225" y2="272" stroke="rgba(0,0,0,0.25)" stroke-width="2"></line>
+          <line x1="185" y1="283" x2="230" y2="283" stroke="rgba(0,0,0,0.25)" stroke-width="2"></line>
+          <!-- right paper -->
+          <rect x="485" y="258" width="60" height="40" rx="6" fill="#fff" stroke="rgba(0,0,0,0.25)" stroke-width="3"></rect>
+          <line x1="495" y1="272" x2="535" y2="272" stroke="rgba(0,0,0,0.25)" stroke-width="2"></line>
+          <line x1="495" y1="283" x2="540" y2="283" stroke="rgba(0,0,0,0.25)" stroke-width="2"></line>
+        </g>
+        <!-- C (judge / interrogator) -->
+        <g class="fragment" data-fragment-index="2">
+          <circle cx="360" cy="315" r="34" fill="rgba(0,0,0,0.18)"></circle>
+          <rect x="300" y="348" width="120" height="44" rx="22" fill="rgba(0,0,0,0.18)"></rect>
+          <text x="360" y="328" text-anchor="middle" font-size="64" font-weight="900" fill="#d00">C</text>
+          <text x="360" y="408" text-anchor="middle" font-size="22" font-weight="900" fill="rgba(0,0,0,0.75)">
+            Judge / Interrogator
+          </text>
+        </g>
+        <!-- Arrows to C -->
+        <g class="fragment" data-fragment-index="4" stroke="#000" stroke-width="5" fill="none" opacity="0.85">
+          <path d="M 205 300 C 240 320, 290 340, 325 350"></path>
+          <path d="M 515 300 C 480 320, 430 340, 395 350"></path>
+          <polygon points="332,351 316,345 322,360" fill="#000"></polygon>
+          <polygon points="388,351 404,345 398,360" fill="#000"></polygon>
+        </g>
+      </svg>
+      <!-- Hard part -->
+      <div class="fragment" data-fragment-index="5"
+           style="margin-top:10px; font-size:28px; line-height:1.25;">
+        <b>Hard part:</b> the <b>machine A</b> must generate answers that are
+        <span style="color:#d00; font-weight:900;">indistinguishable</span>
+        from the <b>human B</b>, using only text relayed by the <b>judge C</b>.
+      </div>
+    </div>
+    <!-- RIGHT: Example Q&A (unchanged) -->
+    <div class="fig">
+      <div style="font-size:30px; font-weight:900; margin-top:8px;">Example of Q&amp;A:</div>
+      <ul class="outline-bullets" style="margin-top:10px; font-size:26px; line-height:1.35;">
+        <li class="fragment" data-fragment-index="1">
+          <b>C:</b> Please write me a sonnet on the subject of the Forth Bridge.
+        </li>
+        <li class="fragment" data-fragment-index="2" style="color:#0a7a0a; font-weight:900;">
+          <b>A/B:</b> Count me out on this one. I never could write poetry.
+        </li>
+        <li class="fragment" data-fragment-index="3">
+          <b>C:</b> Add 34,957 to 70,764.
+        </li>
+        <li class="fragment" data-fragment-index="4" style="color:#0a7a0a; font-weight:900;">
+          <b>A/B:</b> (Pause about 30 seconds and then give as answer) 105621.
+        </li>
+        <li class="fragment" data-fragment-index="5">
+          <b>C:</b> Do you play chess?
+        </li>
+        <li class="fragment" data-fragment-index="6" style="color:#0a7a0a; font-weight:900;">
+          <b>A/B:</b> Yes.
+        </li>
+      </ul>
+      <div style="height:10px;"></div>
+      <ul style="margin:0; padding-left:1.2em; font-size:22px; line-height:1.35;">
+        <li class="fragment" data-fragment-index="7">
+          <a href="http://baojian.github.io/llm-26/papers/Does_GPT-4_pass_the_Turing_test-2023.pdf" target="_blank" rel="noopener">Does GPT-4 pass the Turing test?</a>
+        </li>
+        <li class="fragment" data-fragment-index="7">
+          <a href="#" target="_blank" rel="noopener">Large Language Models Pass the Turing Test</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </section>
 
