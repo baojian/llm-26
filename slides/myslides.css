@@ -94,6 +94,28 @@
 .outline-bullets.big li.active { color: #000; }
 .outline-bullets.big li.muted  { color: var(--muted); }
 
+/* Medium + small bullets (use instead of .outline-bullets.big) */
+.outline-bullets.med{
+  font-size: 40px;
+  line-height: 1.45;
+  font-weight: 700;
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.outline-bullets.small{
+  font-size: 30px;
+  line-height: 1.45;
+  font-weight: 650;
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.outline-bullets.med li,
+.outline-bullets.small li{
+  margin: 10px 0;
+}
+
 .code-grid-3{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -672,6 +694,97 @@ a.link-card:hover{
 /* Backtracking slide: table 55%, right panel 45% */
 .med-bt-slide .med-table  { flex: 11 1 0; min-width: 0; }
 .med-bt-slide .med-legend { flex:  9 1 0; min-width: 0; }
+
+/* =========================================================
+   MED overrides (append-only). Keep base MED CSS unchanged.
+   Usage: add class on the <section> like:
+   <section class="ppt med-slide med-w70"> ...
+   ========================================================= */
+
+/* 70% table / 30% legend */
+.med-w70 .med-table  { flex: 7 1 0; }
+.med-w70 .med-legend { flex: 3 1 0; }
+
+/* 55% table / 45% legend (your backtrack slide target) */
+.med-w55 .med-table  { flex: 11 1 0; }
+.med-w55 .med-legend { flex:  9 1 0; }
+
+/* Smaller / larger square cells (pick one per slide) */
+.med-cells-40 .med-table th,
+.med-cells-40 .med-table td{
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 16px;
+}
+
+.med-cells-50 .med-table th,
+.med-cells-50 .med-table td{
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+}
+
+/* Bigger equation box (if a slide needs it) */
+.med-eq-big .med-eq{
+  width: 520px;
+  min-height: 140px;
+  font-size: 20px;
+}
+
+/* ===== MED alignment demo (INTENTION -> EXECUTION) ===== */
+.med-align{
+  margin-top: 14px;
+  padding: 14px 14px;
+  border: 2px solid rgba(0,0,0,0.10);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.75);
+}
+
+.med-align .row{
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+}
+
+.med-align .ch{
+  width: 32px;
+  height: 32px;
+  line-height: 42px;
+  text-align: center;
+  border-radius: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono","Courier New", monospace;
+  font-size: 20px;
+  font-weight: 500;
+  background: rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.med-align .op{
+  width: 32px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+  font-weight: 900;
+  opacity: 0.9;
+}
+
+.med-align .keep{ color: rgba(0,0,0,0.28); }   /* green */
+.med-align .sub { color: rgba(210,0,0,0.95); }   /* red */
+.med-align .ins { color: rgba(0,95,220,0.95); }  /* blue */
+.med-align .del { color: rgba(255,140,0,0.98); } /* orange */
+.med-align .muted{ color: rgba(0,0,0,0.28); }
+
+.med-align .op{
+  height: 80px;
+  font-size: 42px;     /* bigger arrow */
+  line-height: 0.8;    /* makes it look longer */
+  font-weight: 900;
+}
 
 /* ===== BPE layout ===== */
 .bpe-wrap{

@@ -1049,6 +1049,363 @@ print(tokens)</code></pre>
 
 ---
 
+<section class="ppt">
+  <div class="ppt-title">Minimum Edit Distance (MED): Why?</div>
+  <div class="ppt-line"></div>
+
+  <!-- TOP ROW: Biology (left) + Spell (right) -->
+  <div class="twocol" style="--left:50%; margin-top:10px;">
+    <!-- TOP-LEFT: Computational biology -->
+    <div class="text">
+      <div style="border:2px solid rgba(0,0,0,0.08); border-radius:14px; padding:14px 14px; background:rgba(255,255,255,0.65);">
+        <div style="font-size:28px; font-weight:900; color:#1f4e9a; margin-bottom:6px;">
+          Computational Biology
+        </div>
+        <div style="font-size:22px; opacity:.8; margin-bottom:10px;">
+          Align two sequences of nucleotides
+        </div>
+        <div style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono','Courier New', monospace;
+                    font-size:22px; font-weight:800; color:#1f4e9a; letter-spacing:.4px; line-height:1.25;">
+          AGGCTATCACCTGACCTCCAGGCCGATGCCC<br/>
+          TAGCTATCACGACCGCGGTCGATTTGCCCGAC
+        </div>
+        <!-- alignment appears on click -->
+        <div class="fragment" data-fragment-index="1" style="margin-top:10px;">
+          <div style="font-size:24px; font-weight:900; margin-bottom:6px;">Resulting alignment</div>
+          <div style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono','Courier New', monospace;
+                      font-size:24px; font-weight:900; line-height:1.22;">
+            -<span class="fudanblue">AG</span>G<span class="fudanblue">CTATCAC</span>CT<span class="fudanblue">GACC</span>T<span class="fudanblue">C</span>CA<span class="fudanblue">GG</span>C<span class="fudanblue">CGA</span>--<span class="fudanblue">TGCCC</span>---<br/>
+            T<span class="fudanblue">AG</span>-<span class="fudanblue">CTATCAC</span>--<span class="fudanblue">GACC</span>G<span class="fudanblue">C</span>--<span class="fudanblue">GG</span>T<span class="fudanblue">CGA</span>TT<span class="fudanblue">TGCCC</span>GAC
+          </div>
+          <div style="margin-top:6px; font-size:18px; opacity:.75;">
+            “-” indicates gaps (insertions/deletions).
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- TOP-RIGHT: Spell correction -->
+    <div class="fig">
+      <div style="border:2px solid rgba(0,0,0,0.08); border-radius:14px; padding:14px 14px; background:rgba(255,255,255,0.65);">
+        <div style="font-size:28px; font-weight:900; color:#1f4e9a; margin-bottom:6px;">
+          Spell Correction
+        </div>
+        <div style="font-size:22px; opacity:.8; margin-bottom:10px;">
+          Find the closest candidate by MED
+        </div>
+        <div style="font-size:26px; line-height:1.35;">
+          Input: <span class="fudanblue" style="font-weight:900;">graffe</span>
+        </div>
+        <div style="height:10px;"></div>
+        <div style="font-size:22px; line-height:1.55;">
+          Candidates:
+          <div style="height:6px;"></div>
+          <div style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,'Liberation Mono','Courier New', monospace;">
+            giraffe, graph, giraff, grief
+          </div>
+        </div>
+        <div class="fragment" data-fragment-index="2" style="margin-top:12px; font-size:26px; font-weight:900;">
+          Best match: <span style="color:#1f4e9a;">giraffe</span>
+        </div>
+        <div style="margin-top:10px; font-size:18px; opacity:.75;">
+          MED provides a principled way to compare strings.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="height:14px;"></div>
+
+  <!-- BOTTOM ROW: Machine Translation (full width) -->
+  <div style="border:2px solid rgba(0,0,0,0.08); border-radius:14px; padding:14px 16px; background:rgba(255,255,255,0.65);">
+    <div style="font-size:26px; font-weight:900; color:#1f4e9a; margin-bottom:8px;">
+      Machine Translation (Chinese → English)
+    </div>
+    <div class="twocol" style="--left:44%;">
+      <!-- MT left -->
+      <div class="text">
+        <div style="font-size:22px; line-height:1.35;">
+          <div style="font-weight:900; color:#1f4e9a;">Chinese</div>
+          <div style="height:4px;"></div>
+          <div style="font-weight:800;">这个机场的安全工作由以色列方面负责</div>
+          <div style="height:10px;"></div>
+          <div style="font-weight:900; color:#1f4e9a;">Reference</div>
+          <div style="height:4px;"></div>
+          <div style="font-weight:800;">Israeli officials are responsible for airport security</div>
+        </div>
+      </div>
+      <!-- MT right -->
+      <div class="fig">
+        <div style="font-size:20px; line-height:1.45;">
+          <div style="font-weight:900; color:#1f4e9a;">Candidates</div>
+          <ol style="margin:6px 0 0 0; padding-left:1.2em;">
+            <li>Israeli officials responsibility of airport safety</li>
+            <li>Israel is responsible for safety work at this airport</li>
+            <li>Israel presides over the security of the airport</li>
+            <li>Israel took charge of the airport security</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="fragment" data-fragment-index="3" style="margin-top:8px; font-size:22px; font-weight:900; color:#d00;">
+      Which translation is the best?
+    </div>
+  </div>
+
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">Edit Distance & Minimum Edit Distance (MED)</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 50%;">
+    <!-- LEFT: definition -->
+    <div class="text">
+      <div style="font-size:32px; line-height:1.45; margin-top:10px;">
+        <ul style="margin:0; padding-left:1.1em;">
+          <li style="margin:10px 0;">
+            <b>Edit distance</b> = minimum cost to transform
+            <span style="color:#1f4e9a; font-weight:900;">String X</span>
+            into
+            <span style="color:#ff7a00; font-weight:900;">String Y</span>.
+          </li>
+          <li style="margin:10px 0;">
+            Operations:
+            <ul style="margin:8px 0 0 0; padding-left:1.1em;">
+              <li>Insertion (<b>ins</b>)</li>
+              <li>Deletion (<b>del</b>)</li>
+              <li>Substitution (<b>sub</b>)</li>
+            </ul>
+          </li>
+          <li style="margin:10px 0;">
+            Goal: <b>find the minimum</b> cost of edits.
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- RIGHT: MED example + dynamic alignment -->
+    <div class="fig">
+      <div style="font-size:25px; line-height:1.45; margin-top:10px;">
+        <div style="font-weight:900;">
+          <span style="color:#1f4e9a;">String X</span> = <b>INTENTION</b>
+        </div>
+        <div style="height:6px;"></div>
+        <div style="font-weight:900;">
+          <span style="color:#ff7a00;">String Y</span> = <b>EXECUTION</b>
+        </div>
+        <div style="height:14px;"></div>
+        <div data-fragment-index="1" style="font-size:25px; opacity:.9;">
+          If each operation costs 1 → distance is <b>5</b>
+        </div>
+        <div data-fragment-index="2" style="font-size:25px; opacity:.9;">
+          If <b>sub</b> costs 2 → distance is <b>8</b>
+        </div>
+        <div class="med-align">
+          <!-- top string -->
+          <div class="row" aria-label="top string">
+            <div class="ch">I</div><div class="ch">N</div><div class="ch">T</div><div class="ch">E</div><div class="ch">*</div>
+            <div class="ch">N</div><div class="ch">T</div><div class="ch">I</div><div class="ch">O</div><div class="ch">N</div>
+          </div>
+          <!-- operation row (reveals step-by-step) -->
+          <div class="row" aria-label="operations">
+            <div class="op del fragment" data-fragment-index="3">↓</div>
+            <div class="op sub fragment" data-fragment-index="4">↓</div>
+            <div class="op sub fragment" data-fragment-index="4">↓</div>
+            <div class="op muted fragment" data-fragment-index="5">↓</div>
+            <div class="op ins fragment" data-fragment-index="6">↓</div>
+            <div class="op sub fragment" data-fragment-index="7">↓</div>
+            <div class="op muted fragment" data-fragment-index="8">↓</div>
+            <div class="op muted fragment" data-fragment-index="8">↓</div>
+            <div class="op muted fragment" data-fragment-index="8">↓</div>
+            <div class="op muted fragment" data-fragment-index="8">↓</div>
+          </div>
+          <!-- bottom string -->
+          <div class="row" aria-label="bottom string">
+            <div class="ch">*</div><div class="ch">E</div><div class="ch">X</div><div class="ch">E</div><div class="ch">C</div>
+            <div class="ch">U</div><div class="ch">T</div><div class="ch">I</div><div class="ch">O</div><div class="ch">N</div>
+          </div>
+        <div data-fragment-index="9" style="margin-top:10px; font-size:20px; opacity:.85;">
+          Legend:
+          <span class="med-align del" style="padding:2px 8px; border-radius:999px; border:1px solid rgba(0,0,0,0.10);">del</span>
+          <span class="med-align sub" style="padding:2px 8px; border-radius:999px; border:1px solid rgba(0,0,0,0.10);">sub</span>
+          <span class="med-align ins" style="padding:2px 8px; border-radius:999px; border:1px solid rgba(0,0,0,0.10);">ins</span>
+          <span class="med-align keep" style="padding:2px 8px; border-radius:999px; border:1px solid rgba(0,0,0,0.10);">match</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- top content stays for your other part of the slide -->
+  <div style="height:273px;"></div>
+  <!-- bottom strip: appears after one → -->
+  <div class="fragment" data-fragment-index="9" style="
+    position:absolute; left:40px; right:40px; bottom:40px;
+    border:2px solid rgba(0,0,0,0.10);
+    border-radius:16px;
+    padding:18px 22px;
+    background:rgba(255,255,255,0.92);
+    box-shadow:0 10px 22px rgba(0,0,0,0.10);
+  ">
+    <div style="font-size:30px; font-weight:900; margin-bottom:10px;">
+      View MED as a <span class="fudanblue">shortest-path / search</span> problem
+    </div>
+    <div style="display:flex; gap:26px; align-items:flex-start;">
+      <div style="flex:6; font-size:26px; line-height:1.35;">
+        <ul style="margin:0; padding-left:1.1em;">
+          <li><b>State:</b> current string</li>
+          <li><b>Actions:</b> insert / delete / substitute</li>
+          <li><b>Goal:</b> transform <span class="fudanblue">X → Y</span></li>
+          <li><b>Cost:</b> number of (weighted) edits</li>
+        </ul>
+      </div>
+      <div style="flex:5; font-size:26px; line-height:1.35;">
+        <div style="font-weight:900; color:#d00; margin-bottom:6px;">
+          Naive search is infeasible
+        </div>
+        <ul style="margin:0; padding-left:1.1em;">
+          <li>Number of edit sequences grows <b>exponentially</b></li>
+          <li>We need <b>dynamic programming</b> (next slides)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">How to find MED?</div>
+  <div class="ppt-line"></div>
+
+  <!-- top content stays for your other part of the slide -->
+  <div style="height:300px;"></div>
+
+  <!-- bottom strip: keep this message -->
+  <div style="
+    position:absolute; left:40px; right:40px; bottom:40px;
+    border:2px solid rgba(0,0,0,0.10);
+    border-radius:16px;
+    padding:18px 22px;
+    background:rgba(255,255,255,0.92);
+    box-shadow:0 10px 22px rgba(0,0,0,0.10);
+  ">
+    <div style="font-size:30px; font-weight:900; margin-bottom:10px;">
+      View MED as a <span class="fudanblue">shortest-path / search</span> problem
+    </div>
+    <div style="display:flex; gap:26px; align-items:flex-start;">
+      <!-- left: search framing -->
+      <div style="flex:6; font-size:26px; line-height:1.35;">
+        <ul style="margin:0; padding-left:1.1em;">
+          <li><b>State:</b> current string</li>
+          <li><b>Actions:</b> insert / delete / substitute</li>
+          <li><b>Goal:</b> transform <span class="fudanblue">X → Y</span></li>
+          <li><b>Cost:</b> number of (weighted) edits</li>
+        </ul>
+      </div>
+      <!-- right: key punchline -->
+      <div style="flex:5; font-size:26px; line-height:1.35;">
+        <div style="font-weight:900; color:#d00; margin-bottom:6px;">
+          Naive search is infeasible
+        </div>
+        <ul style="margin:0; padding-left:1.1em;">
+          <li>Number of edit sequences grows <b>exponentially</b></li>
+          <li>We need <b>dynamic programming</b> (next slides)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">Search View: Why Not Brute Force?</div>
+  <div class="ppt-line"></div>
+
+
+  <ul class="outline-bullets">
+    <li>State = current string</li>
+    <li>Actions = insert / delete / substitute</li>
+    <li>Goal = reach the target string</li>
+    <li>Path cost = total edit cost</li>
+  </ul>
+
+
+  <div style="height:12px;"></div>
+  <div style="font-size:30px; font-weight:800;">
+    Brute force enumerates <span class="fudanblue">too many</span> edit sequences.  
+    We need <span class="fudanblue">dynamic programming</span>.
+  </div>
+</section>
+
+---
+
+<section class="ppt med-slide">
+  <div class="ppt-title">Dynamic Programming Recurrence</div>
+  <div class="ppt-line"></div>
+  <ul class="outline-bullets">
+    <li>Let <b>D[i,j]</b> be the minimum cost to convert <b>x₁…xᵢ</b> into <b>y₁…yⱼ</b></li>
+    <li>Each cell comes from <b>3 cases</b>: delete / insert / substitute</li>
+  </ul>
+  <div class="med-eq" style="position:relative; right:auto; bottom:auto; margin-top:10px; width:900px;">
+  $$
+  D[i,j] = \min\Big\{
+    D[i-1,j] + \mathrm{Del}(x_i),\;
+    D[i,j-1] + \mathrm{Ins}(y_j),\;
+    D[i-1,j-1] + \mathrm{Sub}(x_i,y_j)
+  \Big\}
+  $$
+  </div>
+</section>
+
+---
+
+<section class="ppt med-slide med-w55 med-bt-slide">
+  <div class="ppt-title">Backtracking: Recover the Alignment</div>
+  <div class="ppt-line"></div>
+
+  <!-- NEW: short motivation text (your content) -->
+  <div style="
+    margin-top:10px;
+    font-size:26px;
+    line-height:1.35;
+    border:2px solid rgba(0,0,0,0.10);
+    border-radius:14px;
+    padding:12px 16px;
+    background:rgba(255,255,255,0.92);
+  ">
+    <ul style="margin:0; padding-left:1.1em;">
+      <li><b>Edit distance alone is not sufficient</b> — we also want the <b>alignment</b>.</li>
+      <li>We align characters by keeping a <b>backtrace</b> (argmin pointer) for each cell.</li>
+      <li>Every time we fill a cell, we remember <b>where we came from</b>.</li>
+      <li>When we reach the end, we trace back from <b>bottom-right</b> to read off the alignment.</li>
+    </ul>
+  </div>
+
+  <div style="height:10px;"></div>
+
+  <!-- keep your existing bullets (optional: can remove if redundant) -->
+  <ul class="outline-bullets" style="margin-top:6px;">
+    <li>MED value is in the <b>bottom-right</b> cell</li>
+    <li>To get the <b>alignment</b>, follow the argmin pointers backward</li>
+    <li>Each step corresponds to
+      <span class="legend-chip del">Del</span>,
+      <span class="legend-chip ins">Ins</span>,
+      <span class="legend-chip sub">Sub</span>, or
+      <span class="legend-chip keep">Match</span>
+    </li>
+  </ul>
+
+  <div style="height:10px;"></div>
+
+  <!-- your working backtracking HTML goes here -->
+  <div id="med-backtrack"></div>
+</section>
+
+---
+
 <section class="ppt med-slide"
          data-src="intention"
          data-tgt="execution"
@@ -1126,6 +1483,111 @@ $$
 
   <!-- fragments auto-created by JS into this container -->
   <div class="bt-frags" style="display:none;"></div>
+
+<!-- lower-right theory box (appears at the end) -->
+<div
+     style="
+       position:absolute; right:26px; bottom:22px;
+       width: 520px;
+       padding:16px 18px;
+       background: rgba(255,255,255,0.94);
+       border: 2px solid rgba(0,0,0,0.12);
+       border-radius: 16px;
+       box-shadow: 0 12px 26px rgba(0,0,0,0.10);
+       font-size: 22px;
+       line-height: 1.35;
+     ">
+
+  <ul style="margin:0; padding-left:1.1em;">
+    <li>Every non-decreasing path from <b>[0,0]</b> to <b>[n,m]</b> corresponds to an <b>alignment</b>.</li>
+    <li>An <b>optimal alignment</b> is composed of <b>optimal subalignments</b>.</li>
+    <li>DP time: $\mathcal{O}(nm)$, space: $\mathcal{O}(nm)$.</li>
+    <li>Backtrace time and space: $\mathcal{O}(n+m)$.</li>
+  </ul>
+
+</div>
+
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">MED and Dynamic Programming</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 35%;">
+    <!-- LEFT (40%): definition -->
+    <div class="text" style="font-size:30px; line-height:1.35; margin-top:8px;">
+      <ul style="margin:0; padding-left:1.1em;">
+        <li><b>For two strings</b>, define</li>
+      </ul>
+      <div style="height:8px;"></div>
+      <div style="font-size:28px;">
+        $$
+        X = [x_1,x_2,\ldots,x_n],
+        $$
+        $$
+        Y = [y_1,y_2,\ldots,y_m]
+        $$
+      </div>
+      <div style="height:10px;"></div>
+      <ul style="margin:0; padding-left:1.1em;">
+        <li>
+          We define <b>$D[i,j]$</b> as the MED between
+          $X[1\ldots i]$ and $Y[1\ldots j]$
+        </li>
+        <li style="margin-top:6px;">
+          $i$: first $i$ characters of $X$;<div style="height:1px;"></div>
+          $j$: first $j$ characters of $Y$
+        </li>
+      </ul>
+      <div style="height:40px;"></div>
+      <div style="font-size:32px; font-weight:900; color:#d00;">
+        Edit distance$$(X,Y)=D[n,m]$$
+      </div>
+    </div>
+    <!-- RIGHT (60%): DP -->
+    <div class="fig fragment" data-fragment-index="1" style="font-size:28px; line-height:1.35; margin-top:8px;">
+      <div style="font-weight:900; color:#1f4e9a; font-size:34px; margin-bottom:8px;">
+        Dynamic programming for MED
+      </div>
+      <div style="height:5px;"></div>
+      <div style="font-weight:900; margin-bottom:6px;">Initialization</div>
+      <div style="font-size:24px;">
+        $$
+        D[0,j]=j\quad (j=0,1,\ldots,m),\quad D[i,0]=i\quad (i=0,1,\ldots,n)
+        $$
+      </div>
+      <div style="height:6px;"></div>
+      <div style="font-weight:900; margin-bottom:6px;">Recurrence</div>
+      <div style="font-size:26px;">
+        $$
+          D[i,j] \;=\;
+          \min\begin{cases}
+          D[i-1,j] + \mathrm{Del}(x_i)\\
+          D[i,j-1] + \mathrm{Ins}(y_j)\\
+          D[i-1,j-1] + \mathrm{Sub}(x_i,y_j)
+          \end{cases}
+        $$
+      </div>
+      <div style="height:6px;"></div>
+      <div style="font-weight:900; margin-bottom:6px;">Levenshtein costs</div>
+      <div style="font-size:24px;">
+        $$
+        \mathrm{Del}(x_i)=1,\quad \mathrm{Ins}(y_j)=1, \quad \mathrm{Sub}(x_i,y_j)=
+        \begin{cases}
+          0,& x_i=y_j,\\
+          2,& x_i\neq y_j.
+        \end{cases}
+        $$
+      </div>
+      <div style="height:5px;"></div>
+      <div style="font-size:32px; font-weight:900; color:#d00;">
+        Return <b>$D[n,m]$</b> as MED.
+      </div>
+    </div>
+
+  </div>
 </section>
 
 ---
@@ -1350,9 +1812,13 @@ $$
           </li>
           <li>
             Our reading materials:<div style="height:2px;"></div>
-            <a href="https://www.nltk.org/book/ch02.html" target="_blank" rel="noopener">
-              nltk.org/book/ch02.html
-            </a>
+<ul style="margin:0; padding-left:1.1em; font-size:20px; line-height:1.3;">
+  <li><a href="https://baojian.github.io/llm-26/papers/lecture-01-readings-0-JM_Book_Chapter_2.pdf" target="_blank" rel="noopener">JM Book — Chapter 2 (PDF)</a></li>
+  <li><a href="https://baojian.github.io/llm-26/papers/lecture-01-readings-1-Advances_in_NLP-2015.pdf" target="_blank" rel="noopener">Advances in NLP (2015) (PDF)</a></li>
+  <li><a href="https://baojian.github.io/llm-26/papers/lecture-01-readings-2-Human_Language_Understanding_and_Reasoning-2022.pdf" target="_blank" rel="noopener">Human Language Understanding & Reasoning (2022) (PDF)</a></li>
+  <li><a href="https://baojian.github.io/llm-26/papers/lecture-01-readings-3-Scaling_Laws_with_Vocabulary-2024.pdf" target="_blank" rel="noopener">Scaling Laws with Vocabulary (2024) (PDF)</a></li>
+  <li><a href="https://baojian.github.io/llm-26/papers/lecture-01-readings-4-Getting_the_most_out_of_your_tokenizer_for_pre-training-2024.pdf" target="_blank" rel="noopener">Getting the Most out of Your Tokenizer for Pre-training (2024) (PDF)</a></li>
+</ul>
           </li>
         </ul>
       </div>
@@ -1362,4 +1828,40 @@ $$
       <div style="font-size:40px; opacity:0.85;">
         <b>Next lecture:</b> Simple Language Models (N-grams)
       </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">References</div>
+  <div class="ppt-line"></div>
+
+  <ol style="font-size:28px; line-height:1.45; margin-top:10px; padding-left:1.2em;">
+    <li>Dan’s book, Chapter 2.</li>
+    <li>Dan’s slides.</li>
+    <li>
+      张奇、桂韬、黄萱菁，《自然语言处理导论》，Chapter 1, 2023.<div style="height:5px;"></div>
+      <a href="https://intro-nlp.github.io/" target="_blank" rel="noopener">https://intro-nlp.github.io/</a>
+    </li>
+    <li>
+      Microsoft Azure Architecture Center: “Natural language processing”<div style="height:5px;"></div>
+      <a href="https://learn.microsoft.com/en-us/azure/architecture/data-guide/technology-choices/natural-language-processing"
+         target="_blank" rel="noopener">
+        learn.microsoft.com/.../natural-language-processing
+      </a>
+    </li>
+    <li>
+      Stanford (Eric Roberts): “Overview & History of NLP”<div style="height:5px;"></div>
+      <a href="https://cs.stanford.edu/people/eroberts/courses/soco/projects/2004-05/nlp/overview_history.html"
+         target="_blank" rel="noopener">
+        cs.stanford.edu/.../overview_history.html
+      </a>
+    </li>
+    <li>
+      Transformer model timeline<div style="height:5px;"></div>
+      <a href="https://ai.v-gar.de/ml/transformer/timeline/" target="_blank" rel="noopener">
+        https://ai.v-gar.de/ml/transformer/timeline/
+      </a>
+    </li>
+  </ol>
 </section>
