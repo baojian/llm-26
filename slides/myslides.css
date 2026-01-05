@@ -196,3 +196,583 @@ a.link-card:hover{
 .sa-ex:hover{
   border-color: rgba(31,78,154,0.55);
 }
+
+/* Article cards */
+.art-card{
+  border: 2px solid rgba(0,0,0,0.12);
+  border-radius: 14px;
+  background: #f6f7f9;
+  padding: 14px 16px;
+}
+
+.art-head{
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--fudan-blue);
+  margin-bottom: 10px;
+}
+
+.art-body{
+  font-size: 24px;        /* <-- smaller text */
+  line-height: 1.35;
+  max-height: 420px;      /* keep slide clean */
+  overflow: auto;         /* scroll if long */
+  padding-right: 6px;
+}
+
+.art-k{
+  font-weight: 900;
+  opacity: 0.85;
+  margin-top: 6px;
+}
+
+.art-v{
+  opacity: 0.95;
+}
+
+/* Bottom choices */
+.quiz-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.quiz-btn{
+  font-size: 22px;
+  font-weight: 800;
+  text-align: left;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid rgba(0,0,0,0.12);
+  background: #fff;
+  cursor: pointer;
+}
+
+.quiz-btn:hover{
+  border-color: rgba(31,78,154,0.55);
+}
+
+.quiz-correct{
+  border-color: rgba(31,78,154,0.65);
+}
+
+.quiz-hint{
+  margin-top: 20px;
+  font-size: 36px;
+  color: red;
+  opacity: 1.;
+}
+
+.vl-thumbs{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.vl-thumb{
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 2px solid rgba(0,0,0,0.12);
+  border-radius: 14px;
+  padding: 10px;
+  background: #f6f7f9;
+  cursor: pointer;
+}
+
+.vl-thumb img{
+  display:block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin: 6px auto 6px;
+  border-radius: 12px;
+}
+
+.vl-thumb .cap{
+  text-align: center;
+  font-size: 18px;
+  opacity: 0.75;
+  margin-top: 6px;
+}
+
+.vl-thumb.selected{
+  border-color: rgba(31,78,154,0.75);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.10);
+}
+
+/* Simple skill diagram */
+.skill-map{
+  position: relative;
+  height: 520px;
+  border-radius: 16px;
+  border: 2px solid rgba(0,0,0,0.10);
+  background: #f6f7f9;
+  overflow: hidden;
+}
+
+.skill-center{
+  position:absolute;
+  left:50%; top:50%;
+  transform: translate(-50%,-50%);
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: #fff;
+  border: 3px solid rgba(31,78,154,0.55);
+  color: var(--fudan-blue);
+  font-size: 34px;
+  font-weight: 900;
+  text-align:center;
+}
+
+.skill-node{
+  position:absolute;
+  width: 78%;
+  max-width: 380px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 2px solid rgba(0,0,0,0.12);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+/* positions */
+.skill-node.n1{ left:50%; top:10%; transform:translateX(-50%); }
+.skill-node.n2{ left:8%;  top:45%; transform:translateY(-50%); }
+.skill-node.n3{ left:50%; bottom:10%; transform:translateX(-50%); }
+.skill-node.n4{ right:8%; top:45%; transform:translateY(-50%); }
+
+/* connector lines (simple) */
+.skill-map::before{
+  content:"";
+  position:absolute; inset:0;
+  background:
+    linear-gradient(rgba(31,78,154,0.35), rgba(31,78,154,0.35)) 50% 18%/3px 64% no-repeat,
+    linear-gradient(rgba(31,78,154,0.35), rgba(31,78,154,0.35)) 18% 50%/64% 3px no-repeat;
+  pointer-events:none;
+}
+
+/* --- RE: disjunctions slide style --- */
+.re-bullet{
+  font-size: 40px;
+  line-height: 1.25;
+  margin: 10px 0 12px 0;
+  font-weight: 800;
+}
+.re-bullet .dim{ font-weight: 700; opacity: .95; }
+
+.re-row{
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-top: 10px;
+}
+
+.re-table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 28px;
+  line-height: 1.2;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid rgba(0,0,0,0.10);
+}
+.re-table th{
+  background: var(--fudan-blue);
+  color: #fff;
+  text-align: center;
+  padding: 10px 12px;
+  font-weight: 900;
+}
+.re-table td{
+  background: #e9eef7;
+  padding: 10px 12px;
+  border-top: 2px solid rgba(255,255,255,0.7);
+  font-weight: 700;
+}
+.re-table .pattern{ color: #c00000; font-weight: 900; }
+
+.re-code{
+  border-radius: 12px;
+  background: #2b2b2b;
+  color: #eaeaea;
+  padding: 14px 16px;
+  border: 2px solid rgba(0,0,0,0.18);
+}
+.re-code pre{
+  margin: 0;
+  white-space: pre;
+  font-size: 20px;
+  line-height: 1.35;
+  overflow: hidden;
+}
+
+.re-subtitle{
+  font-size: 40px;
+  font-weight: 900;
+  margin-top: 12px;
+}
+
+.hl{
+  color: var(--fudan-blue);
+  text-decoration: underline;
+  font-weight: 900;
+}
+
+.re-out{
+  border-radius: 12px;
+  background: #2b2b2b;
+  color: #eaeaea;
+  padding: 14px 16px;
+  border: 2px solid rgba(0,0,0,0.18);
+}
+.re-out pre{
+  margin: 0;
+  white-space: pre;
+  font-size: 20px;
+  line-height: 1.35;
+}
+.re-bullet b{ font-weight: 900; }
+
+/* Force both boxes to behave nicely in 50/50 layout */
+.re-box{
+  max-width: 50%;
+  height: 420px;          /* adjust if you want taller/shorter */
+  overflow: auto;         /* scroll inside the box */
+}
+/* =========================================================
+   MED (Minimum Edit Distance) dynamic table styles
+   Paste this whole block into myslides.css
+   ========================================================= */
+
+.med-meta{
+  font-size: 22px;
+  line-height: 1.2;
+  opacity: .9;
+  display:flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.med-meta .mono{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono", "Courier New", monospace;
+}
+.med-hint{
+  margin-left:auto;
+  font-size: 20px;
+  opacity: .75;
+}
+
+.med-wrap{
+  display:flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+/* IMPORTANT: let table area shrink so legend stays visible */
+/* MED layout: left table (60%) + right legend (40%) */
+.med-wrap{
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.med-table{
+  flex: 6 1 0;          /* 60% */
+  min-width: 0;
+  overflow: auto;
+  display: flex;
+  justify-content: flex-start;  /* left align the table */
+}
+
+.med-legend{
+  flex: 4 1 0;          /* 40% */
+  min-width: 0;
+}
+
+/* Make table size to its content (square cells) */
+.med-table table{
+  width: auto !important;     /* DO NOT stretch */
+  table-layout: fixed;
+  border-collapse: collapse;
+  display: inline-table;      /* compact */
+}
+
+/* Square cells */
+.med-table th, .med-table td{
+  width: 45px;
+  height: 45px;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 45px;          /* match height */
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid rgba(0,0,0,0.10);
+}
+/* Header cells (letters) */
+.med-table th{
+  background: #eef3fb;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 44px;
+}
+
+/* Row labels column slightly narrower */
+.med-table th:first-child{
+  width: 40px;
+  font-size: 16px;
+}
+
+/* Empty cells before reveal */
+.med-table td.empty{
+  color: transparent;
+  background: #ffffff;
+}
+
+/* Init row/col */
+.med-table td.op-init{
+  background: rgba(0,0,0,0.10);
+  color: #000;
+}
+
+/* ===== Darker operation colors =====
+   match=green, substitute=red, insert=blue, delete=orange
+*/
+.med-table td.op-keep{ background: rgba(0, 150, 0, 0.46); }     /* green */
+.med-table td.op-sub { background: rgba(210, 0, 0, 0.44); }     /* red */
+.med-table td.op-ins { background: rgba(0, 95, 220, 0.44); }    /* blue */
+.med-table td.op-del { background: rgba(255, 140, 0, 0.46); }   /* orange */
+
+/* Active cell outline */
+.med-table td.active{
+  outline: 4px solid rgba(31,78,154,0.88);
+  outline-offset: -2px;
+}
+
+/* Legend */
+.med-legend{
+  flex: 0 0 260px;
+  border: 2px solid rgba(0,0,0,0.10);
+  border-radius: 12px;
+  padding: 12px 12px;
+  background: #f6f7f9;
+  font-size: 20px;
+}
+
+.med-legend .leg{
+  display:flex;
+  gap: 10px;
+  margin: 8px 0;
+  font-weight: 900;
+}
+
+.med-legend .dot{
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  display:inline-block;
+}
+
+/* match / sub / ins / del dots (darker) */
+.med-legend .dot.keep{ background: rgba(0,150,0,0.75); }
+.med-legend .dot.sub { background: rgba(210,0,0,0.75); }
+.med-legend .dot.ins { background: rgba(0,95,220,0.75); }
+.med-legend .dot.del { background: rgba(255,140,0,0.80); }
+
+.med-slide{ position: relative; }
+
+.med-eq{
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+
+  display: inline-block;
+  width: 400px;          /* overall box width */
+  min-height: 90px;     /* makes the box “taller” */
+  padding: 15px 15px;    /* BIGGER box around the equation */
+
+  background: rgba(255,255,255,0.94);
+  border: 3px solid rgba(0,0,0,0.12);
+  border-radius: 22px;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  z-index: 10;
+
+  font-size: 18px;       /* equation size */
+}
+
+/* remove KaTeX/MathJax extra margins */
+.med-eq .katex-display,
+.med-eq mjx-container[display="true"]{
+  margin: 0 !important;
+}
+
+/* Alignment rendering */
+.align-box{
+  background: rgba(255,255,255,0.75);
+  border: 2px solid rgba(0,0,0,0.10);
+  border-radius: 14px;
+  padding: 12px 12px;
+}
+
+.align-row{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono", "Courier New", monospace;
+  font-size: 30px;
+  line-height: 1;
+  margin: 6px 0;
+}
+
+.align-row.mid{
+  opacity: .85;
+}
+
+.align-cell{
+  width: 28px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 900;
+  background: rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+/* color tags for alignment cells */
+.align-cell.keep{ background: rgba(0,150,0,0.38); }
+.align-cell.sub { background: rgba(210,0,0,0.36); }
+.align-cell.ins { background: rgba(0,95,220,0.36); }
+.align-cell.del { background: rgba(255,140,0,0.38); }
+
+.legend-chip{
+  display:inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 900;
+  border: 1px solid rgba(0,0,0,0.10);
+}
+.legend-chip.keep{ background: rgba(0,150,0,0.25); }
+.legend-chip.sub { background: rgba(210,0,0,0.22); }
+.legend-chip.ins { background: rgba(0,95,220,0.22); }
+.legend-chip.del { background: rgba(255,140,0,0.25); }
+
+/* highlight backtrack path cells (optional) */
+.med-table td.path{
+  outline: 3px solid rgba(31,78,154,0.65);
+  outline-offset: -2px;
+}
+
+/* Backtracking slide: table 55%, right panel 45% */
+.med-bt-slide .med-table  { flex: 11 1 0; min-width: 0; }
+.med-bt-slide .med-legend { flex:  9 1 0; min-width: 0; }
+
+/* ===== BPE layout ===== */
+.bpe-wrap{
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr; /* ~55/45 feel; tweak if needed */
+  gap: 18px;
+  align-items: start;
+}
+
+.bpe-bullets{ font-size: 34px; line-height: 1.45; margin: 0; padding-left: 1.1em; }
+.bpe-bullets ol{ margin-top: 10px; }
+.bpe-bullets li{ margin: 10px 0; }
+
+.bpe-block{
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: rgba(255,255,255,0.7);
+}
+
+.bpe-block-title{
+  font-weight: 900;
+  color: var(--fudan-blue, #1f4e9a);
+  margin-bottom: 8px;
+  font-size: 26px;
+}
+
+.bpe-mono{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 20px;
+  line-height: 1.0;
+  white-space: pre-wrap;
+}
+
+.bpe-card{
+  border: 1px solid rgba(0,0,0,0.12);
+  border-radius: 16px;
+  padding: 4px 6px;
+  background: rgba(255,255,255,0.85);
+}
+
+.bpe-card-title{
+  font-weight: 900;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.bpe-step{
+  font-size: 30px;
+  font-weight: 900;
+  padding: 5px 5px;
+  border-radius: 12px;
+  background: rgba(31,78,154,0.08);
+  margin-bottom: 10px;
+}
+
+.bpe-note{
+  margin-top: 10px;
+  font-size: 22px;
+  opacity: 0.78;
+}
+
+.bpe-small{ font-size: 20px; opacity: 0.78; margin-top: 8px; }
+
+.bpe-final{
+  margin-top: 1px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 2px solid rgba(0,0,0,0.10);
+  background: rgba(255,255,255,0.85);
+}
+
+.bpe-final-title{
+  font-weight: 900;
+  color: var(--fudan-blue, #1f4e9a);
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.bpe-final-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.bpe-final-sub{
+  font-weight: 900;
+  font-size: 20px;
+  margin-bottom: 6px;
+  opacity: 0.9;
+}
+
+.bpe-final-col{
+  min-width: 0;
+}
+
+/* Final-state token list font size */
+.bpe-final .bpe-mono pre,
+.bpe-final .bpe-mono code{
+  font-size: 20px !important;
+  line-height: 1.25;
+}

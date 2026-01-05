@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SD txt2img demo</title>
+  <style>
+    :root { --bd:#cfcfcf; --bg:#f0f0f0; }
+    body{ font-family: system-ui; margin:0; padding:14px; }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    input, select, button{
+      font-size:16px; padding:8px 10px; border-radius:10px;
+      border:1px solid var(--bd); background:#fff;
+    }
+    textarea{
+      width:100%; height:140px; margin-top:10px;
+      background:var(--bg); border:1px solid var(--bd); border-radius:10px;
+      font-size:18px; line-height:1.2; padding:10px 12px; box-sizing:border-box;
+    }
+    #img{
+      width:100%; max-height:420px; object-fit:contain;
+      margin-top:12px; border-radius:12px; border:1px solid rgba(0,0,0,.08);
+      background:#fafafa;
+    }
+    pre{
+      white-space: pre-wrap; background:#f6f6f6; padding:10px; border-radius:12px;
+      margin-top:10px; font-size:13px; opacity:.85;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .hint{ font-size:13px; opacity:.7; margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <button id="go">Generate</button>
+
+    <label>Steps <input id="steps" type="number" value="20" min="1" max="50" style="width:80px;"></label>
+    <label>CFG <input id="cfg" type="number" value="7" min="1" max="20" step="0.5" style="width:80px;"></label>
+    <label>W <input id="w" type="number" value="512" min="256" max="1024" step="64" style="width:90px;"></label>
+    <label>H <input id="h" type="number" value="512" min="256" max="1024" step="64" style="width:90px;"></label>
+  </div>
+
+  <textarea id="prompt"></textarea>
+
+  <img id="img" alt="Generated image will appear here" />
+  <pre id="out">Ready.</pre>
+
+  <div class="hint">
+    Requires AUTOMATIC1111 running with <code>--api</code> and CORS allowed for <code>http://localhost:8000</code>. That is, ./webui.sh --api --cors-allow-origins http://localhost:8000,http://127.0.0.1:8000 --port 7860
+  </div>
+
+<script>
+  const API = "http://127.0.0.1:7860"; // AUTOMATIC1111 default
+  const params = new URLSearchParams(location.search);
+
+  const promptEl = document.getElementById("prompt");
+  const out = document.getElementById("out");
+  const img = document.getElementById("img");
+
+  // default prompt from ?p=
+  promptEl.value = params.get("p") || "A Shiba Inu wearing a graduation cap, studio lighting";
+
+  async function txt2img() {
+    try {
+      out.textContent = "Generating...";
+      img.removeAttribute("src");
+
+      const payload = {
+        prompt: promptEl.value,
+        steps: Number(document.getElementById("steps").value || 20),
+        cfg_scale: Number(document.getElementById("cfg").value || 7),
+        width: Number(document.getElementById("w").value || 512),
+        height: Number(document.getElementById("h").value || 512),
+        seed: -1
+      };
+
+      const r = await fetch(`${API}/sdapi/v1/txt2img`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!r.ok) throw new Error(`HTTP ${r.status} ${r.statusText}`);
+      const j = await r.json();
+
+      // "images" is a list of base64-encoded generated images  [oai_citation:4‡GitHub](https://github.com/AUTOMATIC1111/stable-diffusion-webui/wiki/API)
+      const b64 = (j.images && j.images[0]) ? j.images[0] : null;
+      if (!b64) throw new Error("No image returned (j.images[0] missing).");
+
+      img.src = `data:image/png;base64,${b64}`;
+      out.textContent = "Done.\n\n" + JSON.stringify({ parameters: j.parameters, info: j.info }, null, 2);
+
+    } catch (e) {
+      out.textContent =
+        "Error:\n" + (e?.message || e) + "\n\n" +
+        "Checklist:\n" +
+        "1) Start webui: ./webui.sh --api --cors-allow-origins http://localhost:8000,http://127.0.0.1:8000\n" +
+        "2) Open slides via: http://localhost:8000/slides/index.html\n" +
+        "3) Confirm API docs reachable: http://127.0.0.1:7860/docs\n";
+    }
+  }
+
+  document.getElementById("go").addEventListener("click", txt2img);
+  promptEl.addEventListener("keydown", (ev) => {
+    if ((ev.ctrlKey || ev.metaKey) && ev.key === "Enter") txt2img();
+  });
+</script>
+</body>
+</html>

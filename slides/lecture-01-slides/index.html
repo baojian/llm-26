@@ -110,5 +110,244 @@
       console.error('Reveal.js initialization failed:', error);
     });
   </script>
+
+  <script>
+	function wireVLDemoSlide(){
+		const frame = document.getElementById("vlFrame");
+		const modelSel = document.getElementById("vlModel");
+		const thumbs = document.querySelectorAll(".vl-thumb");
+
+		if (!frame || !modelSel || thumbs.length === 0) return;
+
+		function setFrame(imgPath){
+		const model = modelSel.value;
+		const url = `./ollama-vl-demo.html?img=${encodeURIComponent(imgPath)}&model=${encodeURIComponent(model)}`;
+		frame.src = url;
+		}
+
+		// click thumbnails -> change selected + reload iframe with chosen image/model
+		thumbs.forEach(btn => {
+		btn.addEventListener("click", () => {
+			thumbs.forEach(x => x.classList.remove("selected"));
+			btn.classList.add("selected");
+			setFrame(btn.dataset.img);
+		});
+		});
+
+		// change model -> reload with currently selected image
+		modelSel.addEventListener("change", () => {
+		const selected = document.querySelector(".vl-thumb.selected");
+		const img = selected ? selected.dataset.img : (thumbs[0].dataset.img);
+		setFrame(img);
+		});
+	}
+
+	if (window.Reveal && Reveal.on) {
+		Reveal.on("ready", wireVLDemoSlide);
+		Reveal.on("slidechanged", wireVLDemoSlide);
+	} else {
+		document.addEventListener("DOMContentLoaded", wireVLDemoSlide);
+	}
+  </script>
+
+  <script>
+	(function(){
+	function buildMED(slide){
+		const src = slide.getAttribute("data-src") || "intention";
+		const tgt = slide.getAttribute("data-tgt") || "execution";
+		const INS = parseInt(slide.getAttribute("data-ins") || "1", 10);
+		const DEL = parseInt(slide.getAttribute("data-del") || "1", 10);
+		const SUB = parseInt(slide.getAttribute("data-sub") || "2", 10);
+
+		// labels
+		const srcLabel = slide.querySelector("#medSrcLabel");
+		const tgtLabel = slide.querySelector("#medTgtLabel");
+		if (srcLabel) srcLabel.textContent = src;
+		if (tgtLabel) tgtLabel.textContent = tgt;
+
+		const m = src.length, n = tgt.length;
+
+		// dp + op
+		const dp = Array.from({length:m+1}, ()=>Array(n+1).fill(0));
+		const op = Array.from({length:m+1}, ()=>Array(n+1).fill(""));
+
+		for(let i=0;i<=m;i++){ dp[i][0]=i*DEL; op[i][0]=(i===0?"start":"del"); }
+		for(let j=0;j<=n;j++){ dp[0][j]=j*INS; op[0][j]=(j===0?"start":"ins"); }
+
+		for(let i=1;i<=m;i++){
+		for(let j=1;j<=n;j++){
+			const costSub = (src[i-1]===tgt[j-1]) ? 0 : SUB;
+			const a = dp[i-1][j] + DEL;         // delete
+			const b = dp[i][j-1] + INS;         // insert
+			const c = dp[i-1][j-1] + costSub;   // subst/match
+			let best = c, bestOp = (costSub===0?"keep":"sub");
+
+			if (a < best){ best = a; bestOp = "del"; }
+			if (b < best){ best = b; bestOp = "ins"; }
+
+			dp[i][j] = best;
+			op[i][j] = bestOp;
+		}
+		}
+
+		// build table
+		const host = slide.querySelector("#medTable");
+		host.innerHTML = "";
+		const table = document.createElement("table");
+		const thead = document.createElement("thead");
+		const trh = document.createElement("tr");
+
+		// top-left corner
+		const corner = document.createElement("th");
+		corner.textContent = "";
+		trh.appendChild(corner);
+
+		// target header chars
+		const th0 = document.createElement("th"); th0.textContent = "∅"; trh.appendChild(th0);
+		for(let j=1;j<=n;j++){
+		const th = document.createElement("th");
+		th.textContent = tgt[j-1];
+		trh.appendChild(th);
+		}
+		thead.appendChild(trh);
+		table.appendChild(thead);
+
+		const tbody = document.createElement("tbody");
+		for(let i=0;i<=m;i++){
+		const tr = document.createElement("tr");
+		const rowHead = document.createElement("th");
+		rowHead.textContent = (i===0 ? "∅" : src[i-1]);
+		tr.appendChild(rowHead);
+
+		for(let j=0;j<=n;j++){
+			const td = document.createElement("td");
+			td.id = `med-${i}-${j}`;
+			td.classList.add("empty");
+			tr.appendChild(td);
+		}
+		tbody.appendChild(tr);
+		}
+		table.appendChild(tbody);
+		host.appendChild(table);
+
+		// steps: first row, first col, then rest row-major
+		const steps = [];
+		for(let j=0;j<=n;j++) steps.push({i:0,j});
+		for(let i=1;i<=m;i++) steps.push({i, j:0});
+		for(let i=1;i<=m;i++) for(let j=1;j<=n;j++) steps.push({i,j});
+
+		// create invisible fragments so → advances within slide
+		const fragHost = slide.querySelector(".med-frags");
+		fragHost.innerHTML = "";
+		steps.forEach((_,k)=>{
+		const s = document.createElement("span");
+		s.className = "fragment";
+		s.setAttribute("data-fragment-index", String(k));
+		s.textContent = ""; // invisible
+		fragHost.appendChild(s);
+		});
+
+		// state on slide
+		slide.__med = { dp, op, steps, last: null };
+	}
+
+	function fillStep(slide, idx){
+		const st = slide.__med;
+		if(!st) return;
+		const {dp, op, steps} = st;
+		if(idx < 0 || idx >= steps.length) return;
+
+		const {i,j} = steps[idx];
+		const td = slide.querySelector(`#med-${i}-${j}`);
+		if(!td) return;
+
+		// un-highlight last
+		if(st.last){
+		const lastTd = slide.querySelector(st.last);
+		if(lastTd) lastTd.classList.remove("active");
+		}
+
+		td.textContent = dp[i][j];
+		td.classList.remove("empty", "op-keep", "op-sub", "op-ins", "op-del", "op-init");
+
+		// color by operation (init row/col treated specially)
+		if(i===0 || j===0) td.classList.add("op-init");
+		else td.classList.add("op-" + op[i][j]);
+
+		td.classList.add("active");
+		st.last = `#med-${i}-${j}`;
+	}
+
+	// Build once whenever we enter a MED slide
+	Reveal.on('slidechanged', e => {
+		const slide = e.currentSlide;
+		if(slide && slide.classList.contains("med-slide") && !slide.__med){
+		buildMED(slide);
+		// show the first cell even before any fragment
+		fillStep(slide, 0);
+		}
+	});
+
+	// Also build if deck opens directly on that slide
+	Reveal.on('ready', e => {
+		const slide = e.currentSlide;
+		if(slide && slide.classList.contains("med-slide") && !slide.__med){
+		buildMED(slide);
+		fillStep(slide, 0);
+		}
+	});
+
+	// On fragment show, fill the next cell
+	Reveal.on('fragmentshown', e => {
+		const slide = Reveal.getCurrentSlide();
+		if(!slide || !slide.__med) return;
+		const idx = parseInt(e.fragment.getAttribute("data-fragment-index") || "0", 10);
+		fillStep(slide, idx);
+	});
+
+	})();
+
+	// Clear one step (used when stepping backwards)
+		function clearStep(slide, idx){
+		const st = slide.__med;
+		if(!st) return;
+		const { dp, steps } = st;
+		if(idx < 0 || idx >= steps.length) return;
+
+		const { i, j } = steps[idx];
+		const td = slide.querySelector(`#med-${i}-${j}`);
+		if(!td) return;
+
+		// Keep (0,0) visible as the base cell
+		if(i === 0 && j === 0){
+			td.textContent = dp[0][0];
+			td.classList.remove("empty");
+			td.classList.add("op-init");
+			td.classList.remove("active");
+			return;
+		}
+
+		td.textContent = "";
+		td.classList.add("empty");
+		td.classList.remove("active", "op-keep", "op-sub", "op-ins", "op-del", "op-init");
+		}
+
+		// When fragment is hidden (user presses ←), undo one cell and move highlight back
+		Reveal.on('fragmenthidden', e => {
+		const slide = Reveal.getCurrentSlide();
+		if(!slide || !slide.__med) return;
+
+		const idx = parseInt(e.fragment.getAttribute("data-fragment-index") || "0", 10);
+
+		// remove the cell corresponding to this fragment index
+		clearStep(slide, idx);
+
+		// highlight the previous step (and ensure it stays filled)
+		const prev = Math.max(0, idx - 1);
+		fillStep(slide, prev);
+		});
+	</script>
+	<script src="med-backtrack.js"></script>
+	<script src="bpe-algo.js"></script>
 </body>
 </html>

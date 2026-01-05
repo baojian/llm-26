@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ollama VLM Demo</title>
+  <style>
+    :root { --bd:#cfcfcf; --bg:#f0f0f0; }
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      margin:0; padding:14px; background:#fff; color:#111;
+    }
+    .row{ display:flex; gap:10px; align-items:center; }
+    select, button{
+      font-size:16px; padding:8px 10px; border-radius:10px;
+      border:1px solid var(--bd); background:#fff;
+    }
+    button{ cursor:pointer; font-weight:700; }
+    button:hover{ border-color:#999; }
+    textarea{
+      width:100%; height:160px; margin-top:10px;
+      background:var(--bg); border:1px solid var(--bd); border-radius:10px;
+      font-size:18px; line-height:1.2; padding:10px 12px; box-sizing:border-box;
+      outline:none;
+    }
+    textarea:focus{ border-color:#999; }
+    pre{
+      white-space: pre-wrap; background:#f6f6f6; padding:12px; border-radius:12px;
+      margin-top:10px; min-height:240px; border:1px solid rgba(0,0,0,0.06);
+    }
+    .hint{ font-size:13px; opacity:0.7; margin-top:8px; }
+    .small{ font-size:13px; opacity:0.75; }
+    code.k{ background:#f3f3f3; padding:2px 6px; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <div style="font-weight:900;">Model:</div>
+    <select id="model">
+      <option value="qwen3-vl:2b">qwen3-vl:2b</option>
+      <option value="qwen3-vl:4b">qwen3-vl:4b</option>
+      <option value="llama3.2-vision:11b">llama3.2-vision:11b</option>
+    </select>
+
+    <button id="go">Ask</button>
+    <span class="small">Image: <code class="k" id="imgLabel">(none)</code></span>
+  </div>
+
+  <textarea id="q">Describe the image in one paragraph.</textarea>
+  <pre id="out">Ready.</pre>
+
+  <div class="hint">
+    Note this slide is in a local demo: it requires Ollama running at <code class="k">http://localhost:11434</code> and slides served via
+    <code class="k">python3 -m http.server 8000</code> at folder <code class="k">llm-26/slides</code>.
+  </div>
+
+<script>
+  const endpoint = "http://localhost:11434";
+  const params = new URLSearchParams(location.search);
+
+  const imgPath = params.get("img");      // e.g. media/ppt/media/image41.jpg
+  const modelFromURL = params.get("model");
+
+  const modelSel = document.getElementById("model");
+  const q = document.getElementById("q");
+  const out = document.getElementById("out");
+  const imgLabel = document.getElementById("imgLabel");
+
+  if (modelFromURL) modelSel.value = modelFromURL;
+  imgLabel.textContent = imgPath || "(none)";
+
+  async function loadImageAsBase64(path){
+    const r = await fetch(path);
+    if (!r.ok) throw new Error(`Cannot load image: ${path} (HTTP ${r.status})`);
+    const blob = await r.blob();
+    return await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // reader.result: "data:image/...;base64,AAAA"
+        const dataUrl = reader.result;
+        const base64 = String(dataUrl).split(",")[1];
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function askOllama(){
+    try{
+      if (!imgPath) {
+        out.textContent = "Missing ?img=... in iframe URL.";
+        return;
+      }
+
+      out.textContent = "Loading image...";
+      const imageBase64 = await loadImageAsBase64(imgPath);
+
+      out.textContent = "Thinking...";
+      const model = modelSel.value;
+      const prompt = q.value;
+
+      const r = await fetch(`${endpoint}/api/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model,
+          stream: false,
+          messages: [{
+            role: "user",
+            content: prompt,
+            images: [imageBase64]
+          }]
+        })
+      });
+
+      const j = await r.json();
+      out.textContent =
+        (j && j.message && j.message.content)
+          ? j.message.content
+          : JSON.stringify(j, null, 2);
+
+    } catch (e) {
+      out.textContent =
+        "Error:\n" + (e?.message || e) + "\n\n" +
+        "Checklist:\n" +
+        "1) Open slides via http://localhost:8000 (NOT https GitHub Pages)\n" +
+        "2) Is Ollama running? (open Ollama app)\n" +
+        "3) Pull the model: ollama pull qwen3-vl:2b (or :4b)\n" +
+        "4) If you see CORS errors, allow origin http://localhost:8000\n";
+    }
+  }
+
+  document.getElementById("go").addEventListener("click", askOllama);
+
+  // Optional: Ctrl+Enter to submit
+  q.addEventListener("keydown", (ev) => {
+    if ((ev.ctrlKey || ev.metaKey) && ev.key === "Enter") askOllama();
+  });
+</script>
+</body>
+</html>
