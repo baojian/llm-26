@@ -89,6 +89,12 @@ Use of AI coding assistants **is permitted**. However, you should explicitly att
 
 ---
 
+## GPU Resources
+
+- **Coming sonn**
+
+---
+
 ## Weekly Schedule
 
 ### Week 1 Introduction to LLMs

@@ -14,23 +14,49 @@
   <button id="go" style="font-size:20px; line-height:1.4;">Ask Ollama (Qwen3:1.7B)</button>
   <pre id="out"></pre>
 
+
   <script>
-    const model = "qwen3:1.7b"; // change to your local model name
+  const model = "qwen3:1.7b";
 
-    document.getElementById("go").onclick = async () => {
-      const prompt = document.getElementById("q").value;
-      const out = document.getElementById("out");
-      out.textContent = "Thinking with (qwen3:1.7b)...";
+  document.getElementById("go").onclick = async () => {
+    const prompt = document.getElementById("q").value;
+    const out = document.getElementById("out");
+    out.textContent = ""; // clear
 
-      const r = await fetch("http://localhost:11434/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model, prompt, stream: false })
-      });
+    const r = await fetch("http://localhost:11434/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model, prompt, stream: true })
+    });
 
-      const j = await r.json();
-      out.textContent = j.response ?? JSON.stringify(j, null, 2);
-    };
-  </script>
+    if (!r.ok) {
+      out.textContent = `HTTP ${r.status}: ${await r.text()}`;
+      return;
+    }
+
+    const reader = r.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      // Ollama streams newline-delimited JSON
+      const lines = buffer.split("\n");
+      buffer = lines.pop() || "";
+
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        const j = JSON.parse(line);
+
+        if (j.response) out.textContent += j.response; // append chunk
+        if (j.done) break;
+      }
+    }
+  };
+</script>
 </body>
 </html>

@@ -149,11 +149,13 @@
 ---
 
 <section class="ppt">
-  <div class="ppt-title">Example of LLMs – Ollama (Qwen3:1.7B)</div>
+  <div class="ppt-title">Example of LLMs (Use Qwen-series)</div>
   <div class="ppt-line"></div>
 
-  <iframe src="./ollama-demo.html"
-          style="width:100%; height:620px; border:0; border-radius:12px;"></iframe>
+  <iframe
+    src="./ollama-think-demo.html?modelSel=qwen3:0.6b&think=true&top_logprobs=20"
+    style="width:100%; height:620px; border:0; border-radius:12px;">
+  </iframe>
 </section>
 
 ---
@@ -449,6 +451,30 @@
 ---
 
 <section class="ppt">
+  <div class="ppt-title">Key Questions (This Course Will Answer)</div>
+  <div class="ppt-line"></div>
+
+  <ul class="outline-bullets" style="margin-top:14px; font-size:34px; line-height:1.55;">
+    <li class="fragment"><b>How are LLMs built?</b> <span style="opacity:.85;">Pre-training = next-token prediction</span></li>
+    <li class="fragment"><b>What is the “thinking step”?</b> <span style="opacity:.85;">Post-training with SFT + RL</span></li>
+    <li class="fragment"><b>Why can one model do many tasks?</b> <span style="opacity:.85;">In-context learning + generalization</span></li>
+    <li class="fragment"><b>How can we make LLMs fast?</b> <span style="opacity:.85;">Efficient decoding + systems + compression</span></li>
+    <li class="fragment"><b>How to use LLMs smartly?</b> <span style="opacity:.85;">Tools, planning, and LLM agents</span></li>
+    <li class="fragment"><b>Are my questions and data safe?</b> <span style="opacity:.85;">Privacy + security + safety alignment</span></li>
+    <li class="fragment"><b>Are there alternatives to AR LLMs?</b> <span style="opacity:.85;">Diffusion Language Models</span></li>
+    <li class="fragment"><b>How do we know if an LLM is good?</b> <span style="opacity:.85;">Benchmarks, robustness, hallucinations</span></li>
+    <li class="fragment"><b>How do we make LLM outputs reliable with knowledge/tools?</b> <span style="opacity:.85;">RAG, citations, verification</span></li>
+    <li class="fragment"><b>How do we adapt LLMs to a domain and beyond text?</b> <span style="opacity:.85;">Fine-tuning + Multimodality</span></li>
+  </ul>
+
+  <div class="fragment" style="margin-top:5px; font-size:26px; opacity:.8;">
+    We will focus on these questions throughout the semester.
+  </div>
+</section>
+
+---
+
+<section class="ppt">
   <div class="ppt-title">What We Will Cover (Tentative)</div>
   <div class="ppt-line"></div>
 
@@ -486,6 +512,92 @@
         <li>Syntactic analysis</li>
       </ul>
     </div>
+  </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">More Materials Beyond This Course</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 52%; margin-top:10px;">
+    <!-- LEFT: textbooks + conferences -->
+    <div class="text" style="font-size:28px; line-height:1.45;">
+      <div style="font-weight:900; color:#1f4e9a;">Textbooks / Notes</div>
+      <div style="height:6px;"></div>
+      <ul style="margin:0; padding-left:1.1em;">
+        <li>Jurafsky &amp; Martin, <div style="height:5px;"></div><a href="https://web.stanford.edu/~jurafsky/slp3/" target="_blank" rel="noopener"><i>Speech and Language Processing</i> (3rd ed. draft)</a>
+        </li>
+        <li>Tong Xiao &amp Jingbo Zhu<div style="height:5px;"></div><a href="https://arxiv.org/pdf/2501.09223" target="_blank" rel="noopener"><i>Foundations of Large Language Models</i></a>
+        </li>
+        <li>Jacob Eisenstein, <i>Natural Language Processing</i> (2018)</li>
+        <li>
+          张奇、桂韬、黄萱菁，《
+          <a href="https://intro-nlp.github.io/" target="_blank" rel="noopener">
+            自然语言处理导论</a>》
+        </li>
+      </ul>
+      <div style="height:14px;"></div>
+      <div style="font-weight:900; color:#1f4e9a;">Conferences &amp; Paper Hub</div>
+      <div style="height:6px;"></div>
+      <ul style="margin:0; padding-left:1.1em;">
+        <li><b>NLP:</b> ACL, EMNLP, NAACL, EACL, COLING — ACL Anthology</li>
+        <li><b>ML:</b> NeurIPS, ICML, ICLR</li>
+        <li><b>IR:</b> SIGIR, WWW, WSDM, CIKM</li>
+        <li><b>Data mining:</b> KDD (plus many great blogs)</li>
+      </ul>
+    </div>
+    <!-- RIGHT: courses -->
+    <div class="fig" style="font-size:28px; line-height:1.45;">
+      <div style="font-weight:900; color:#1f4e9a;">High-quality Courses</div>
+      <div style="height:6px;"></div>
+      <ul style="margin:0; padding-left:1.1em;">
+        <li>Stanford CS336: Language Modeling from Scratch (Percy Liang)</li>
+        <li>Stanford CS224N: Deep Learning for NLP (Christopher Manning)</li>
+        <li>CMU 11-711: Advanced NLP (Graham Neubig)</li>
+        <li>UMass CS685: Advanced NLP (Mohit Iyyer)</li>
+        <li>Princeton COS 484: NLP (Danqi Chen)</li>
+        <li>Karpathy: Neural Networks: Zero to Hero</li>
+        <li>Stanford CS124: From Languages to Information (Jurafsky)</li>
+      </ul>
+      <div style="height:14px;"></div>
+      <div style="font-size:22px; opacity:.8;">
+        Tip: pick <b>one textbook</b> + <b>one course</b> as your long-term companion.
+      </div>
+    </div>
+  </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">Coursework</div>
+  <div class="ppt-line"></div>
+
+  <div style="font-size:24px; opacity:.85; margin-top:8px;">
+    Open in a new tab:
+    <a href="https://baojian.github.io/llm-26/index.html" target="_blank" rel="noopener">
+      baojian.github.io/llm-26/index.html
+    </a>
+  </div>
+  <div style="height:10px;"></div>
+  <div style="
+    height:560px;            /* ✅ fixed window height */
+    border:2px solid rgba(0,0,0,0.12);
+    border-radius:16px;
+    overflow:hidden;         /* ✅ keep page inside the box */
+    background:#fff;
+    box-shadow:0 10px 22px rgba(0,0,0,0.10);
+  ">
+    <iframe
+      src="https://baojian.github.io/llm-26/index.html"
+      style="width:100%; height:100%; border:0;">
+    </iframe>
+  </div>
+
+  <div style="margin-top:10px; font-size:18px; opacity:.75;">
+    If the embedded page is blocked by browser security, click the link above to open in a new tab.
   </div>
 </section>
 
@@ -624,6 +736,60 @@
   <li class="active">Basics for Text Preprocessing</li>
   <li class="muted">Text Tokenization</li>
   </ul>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">Text Data: Sources &amp; Coverage</div>
+  <div class="ppt-line"></div>
+  <div class="twocol" style="--left: 58%; margin-top:10px;">
+    <!-- LEFT: big idea + task -->
+    <div class="text" style="font-size:30px; line-height:1.45;">
+      <div style="font-weight:900; color:#1f4e9a;">Text data = written text</div>
+      <div style="height:8px;"></div>
+      <ul style="margin:0; padding-left:1.1em;">
+        <li>LLMs learn from <b>massive corpora</b> collected from many places</li>
+        <li>Different sources have different <b>style</b>, <b>quality</b>, and <b>bias</b></li>
+        <li>Understanding data sources helps us understand a model’s <b>strengths</b> and <b>limitations</b></li>
+      </ul>
+      <div style="height:16px;"></div>
+      <div class="fragment" style="font-weight:900; color:#d00;">
+        Task: find the pre-training datasets (or data sources) of:
+      </div>
+      <div class="fragment" style="height:6px;"></div>
+      <div class="fragment" style="font-weight:900;">
+        DeepSeek-V3, Qwen3, Llama 3, Gemini 2.5
+      </div>
+    </div>
+    <!-- RIGHT: sources + topics -->
+    <div class="fig" style="font-size:30px; line-height:1.5;">
+      <div style="font-weight:900; color:#1f4e9a;">Common data sources</div>
+      <div style="height:8px;"></div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px 26px;">
+        <div>• Blogs</div>
+        <div>• Books</div>
+        <div>• Microblogs</div>
+        <div>• Forums</div>
+        <div>• Reviews</div>
+        <div>• News / articles</div>
+        <div>• Code repositories</div>
+        <div>• Academic papers</div>
+      </div>
+      <div style="height:16px;"></div>
+      <div style="font-weight:900; color:#1f4e9a;">What the text is about</div>
+      <div style="height:8px;"></div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px 26px;">
+        <div>• Topics</div>
+        <div>• People</div>
+        <div>• Events</div>
+        <div>• Products</div>
+      </div>
+    </div>
+  </div>
+  <div class="fragment" style="margin-top:14px; font-size:22px; opacity:.75;">
+    Hint: check each model’s <b>technical report</b>, <b>system card</b>, and <b>training data statement</b>.
+  </div>
 </section>
 
 ---
@@ -1755,6 +1921,50 @@ $$
             </div>
           </div>
         </div>
+</section>
+
+---
+
+<section class="ppt">
+  <div class="ppt-title">Limitations of Tokenization</div>
+  <div class="ppt-line"></div>
+
+  <div class="twocol" style="--left: 48%; margin-top:10px;">
+    <!-- LEFT: what tokenization does + why it matters -->
+    <div class="text" style="font-size:30px; line-height:1.5;">
+      <div style="font-weight:900; color:#1f4e9a;">Tokenization is a necessary interface</div>
+      <div style="height:6px;"></div>
+      <ul style="margin:0; padding-left:1.1em;">
+        <li>Maps raw text → <b>discrete tokens</b> (IDs) for training/inference</li>
+        <li>Defines the model’s “alphabet” and affects <b>cost</b> and <b>accuracy</b></li>
+      </ul>
+      <div style="height:16px;"></div>
+      <div style="font-weight:900; color:#1f4e9a;">But tokenization is not perfect</div>
+      <div style="height:6px;"></div>
+      <ul style="margin:0; padding-left:1.1em;">
+        <li>Not linguistically “correct” (subwords ≠ morphemes/words)</li>
+        <li>Vocabulary is finite → many strings get awkward splits</li>
+        <li>Different tokenizers → different token counts and behaviors</li>
+      </ul>
+    </div>
+    <!-- RIGHT: key limitations list -->
+    <div class="fig" style="font-size:30px; line-height:1.55;">
+      <div style="font-weight:900; color:#1f4e9a;">Common limitations</div>
+      <div style="height:8px;"></div>
+      <ul style="margin:0; padding-left:1.1em;">
+        <li><b>OOV &amp; rare words:</b> names, new terms, typos split badly</li>
+        <li><b>Language imbalance:</b> some scripts/languages get longer token sequences</li>
+        <li><b>Whitespace/punctuation sensitivity:</b> “New York” vs “New&nbsp;York”</li>
+        <li><b>Numbers &amp; formats:</b> dates, URLs, code tokens can fragment</li>
+        <li><b>Security issues:</b> prompt/keyword filters can be bypassed by re-tokenization</li>
+        <li><b>Efficiency tradeoff:</b> smaller vocab → longer sequences; larger vocab → bigger embeddings</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="fragment" style="margin-top:14px; font-size:22px; opacity:.78;">
+    Takeaway: tokenization is a <b>design choice</b> that shapes multilingual quality, robustness, and cost.
+  </div>
 </section>
 
 ---

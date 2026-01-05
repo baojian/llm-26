@@ -1,0 +1,174 @@
+<!-- Save as: slides/ollama-think-demo.html -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{ font-family: system-ui; margin:0; padding:14px; background:#fff; }
+
+    textarea{
+      width:100%;
+      height:110px;
+      background:#f0f0f0;
+      border:1px solid #cfcfcf;
+      border-radius:10px;
+      font-size:18px;
+      line-height:1.35;
+      padding:10px;
+      box-sizing:border-box;
+      resize: vertical;
+    }
+
+    .controls{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:10px; /* below prompt input */
+    }
+
+    button{
+      padding:10px 14px;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,0.15);
+      background:#1f4e9a;
+      color:#fff;
+      font-size:18px;
+      font-weight:800;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    button:disabled{ opacity:.6; cursor: not-allowed; }
+
+    select{
+      font-size:18px;
+      font-weight:800;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,0.18);
+      background:#fff;
+    }
+
+    .label{ font-weight:900; margin:12px 0 6px; color:#1f4e9a; }
+    pre{
+      white-space: pre-wrap;
+      background:#f6f6f6;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,0.10);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size:14px;
+      line-height:1.35;
+      margin:0;
+      min-height: 96px;
+    }
+    .two{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:10px; }
+    .hint{ margin-top:8px; font-size:12px; opacity:.75; }
+  </style>
+</head>
+<body>
+
+  <textarea id="q"></textarea>
+
+  <div class="controls">
+    <button id="go">Ask</button>
+
+    <div style="font-weight:900; opacity:.85;">Model:</div>
+    <select id="modelSel">
+      <option value="qwen3:1.7b">qwen3:0.6b</option>
+      <option value="qwen3:1.7b">qwen3:1.7b</option>
+      <option value="qwen3:4b">qwen3:4b</option>
+    </select>
+  </div>
+  <div id="rt" style="margin-top:8px; font-size:16px; font-weight:800; opacity:.8;">
+  Runtime: –</div>
+
+  <div class="two">
+    <div>
+      <div class="label">Thinking</div>
+      <pre id="thinking">(empty)</pre>
+    </div>
+    <div>
+      <div class="label">Final answer</div>
+      <pre id="out">(empty)</pre>
+    </div>
+  </div>
+  <div style="height:15px;"></div>
+  <div class="hint"  style="font-size:20px;">
+    Tip: This demo calls from http://localhost:11434/api/generate. To make it work, you need to open our slides via a local server (e.g., python3 -m http.server 8000) and keep Ollama running (Make sure you have downloaded Qwen-series. Check: https://github.com/baojian/llm-26)!
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+
+    const rt = document.getElementById("rt");
+
+    const q = document.getElementById("q");
+    const modelSel = document.getElementById("modelSel");
+
+    q.value = params.get("prompt")
+      || "Fudan University is located in which city? Answer with one word.";
+
+    const defaultModel = params.get("model") || "qwen3:0.6b";
+    modelSel.value = defaultModel;
+    if (modelSel.value !== defaultModel) modelSel.selectedIndex = 0;
+
+    const btn = document.getElementById("go");
+    const thinkingBox = document.getElementById("thinking");
+    const outBox = document.getElementById("out");
+
+    btn.onclick = async () => {
+    btn.disabled = true;
+    thinkingBox.textContent = "Thinking…";
+    outBox.textContent = "Waiting…";
+    rt.textContent = "Runtime: running…";
+
+    const t0 = performance.now();
+
+    try {
+        const r = await fetch("http://localhost:11434/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            model: modelSel.value,
+            prompt: q.value,
+            stream: false,
+            think: true
+        })
+        });
+
+        const tFetchDone = performance.now(); // network + server done
+
+        if (!r.ok) {
+        outBox.textContent = `HTTP ${r.status}: ${await r.text()}`;
+        thinkingBox.textContent = "(no thinking)";
+        rt.textContent = `Runtime: ${(tFetchDone - t0).toFixed(0)} ms (request failed)`;
+        return;
+        }
+
+        const j = await r.json();
+        const tJsonDone = performance.now(); // JSON parse done
+
+        thinkingBox.textContent = j.thinking ?? "(no thinking field returned)";
+        outBox.textContent = j.response ?? "(no response)";
+
+        const total = tJsonDone - t0;
+        const req = tFetchDone - t0;       // until fetch resolves
+        const parse = tJsonDone - tFetchDone; // json() parsing time
+
+        rt.textContent =
+        `Runtime: ${total.toFixed(0)} ms  (request: ${req.toFixed(0)} ms, parse: ${parse.toFixed(0)} ms)`;
+
+    } catch (e) {
+        const tErr = performance.now();
+        outBox.textContent = String(e);
+        thinkingBox.textContent = "(error)";
+        rt.textContent = `Runtime: ${(tErr - t0).toFixed(0)} ms (error)`;
+    } finally {
+        btn.disabled = false;
+    }
+    };
+  </script>
+</body>
+</html>
