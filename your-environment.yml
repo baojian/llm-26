@@ -1,0 +1,28 @@
+name: llm-26
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - jupyterlab
+  - conda-forge::ollama
+  - ollama-python
+  - spacy
+  - conda-forge::tiktoken
+  - pytorch
+  - torchaudio
+  - torchvision
+  - datasets
+  - transformers
+  - conda-forge::modelscope
+  - addict
+  - matplotlib
+  - networkx
+  - ipywidgets
+  - jupyterlab_widgets
+  - psutil
+  - spacy-model-en_core_web_sm
+  - spacy-model-zh_core_web_sm
+  - nbconvert
+  - diffusers
+  - fastapi
+prefix: /opt/anaconda3/envs/llm-26

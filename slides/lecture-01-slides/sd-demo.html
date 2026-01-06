@@ -162,7 +162,7 @@
     <div class="hint">
       Tip: first run may be slow because model weights are downloaded into your .cache.<br/>
       <div style="height:10px;"></div>
-      Setup: <b>pip install diffusers</b>, then run <b>uvicorn sd_server:app --host 127.0.0.1 --port 5055</b>.
+      Setup: <b>pip install diffusers</b>, then run <b>uvicorn test_sd_server:app --host 127.0.0.1 --port 5055</b>.
     Open slides via a local server: <b>python3 -m http.server 8000</b>.
     </div>
   </div>
@@ -194,7 +194,7 @@ SAFETY:  disabled (lecture demo)`;
       meta.textContent =
 `Cannot reach ${API}
 Start the server:
-  uvicorn sd_server:app --host 127.0.0.1 --port 5055`;
+  uvicorn test_sd_server:app --host 127.0.0.1 --port 5055`;
     }
   }
 
