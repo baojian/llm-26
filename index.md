@@ -83,7 +83,7 @@ All standard homework assignments are completed by **Week 12**. The final month 
 - **Computing & Communication**
   - **University Cluster:** [https://cfff.fudan.edu.cn/home](https://cfff.fudan.edu.cn/home)
   - **Course Repo:** [baojian/llm-26](https://github.com/baojian/llm-26)
-  - **Academic Integrity:** Please check [our policies](https://xxgk.fudan.edu.cn/_upload/article/files/f5/11/cc2c9a8c4f3ead2dbb00e4fa33c8/02adc618-b180-435c-b1bd-baf4cba3dd72.pdf).
+  - **Academic Integrity:** Please check [our policies](https://baojian.github.io/llm-26/assets/Fudan-academic-integrity.pdf).
 - **AI Policy**
 Use of AI coding assistants **is permitted**. However, you should explicitly attribute the use of AI in your assignment.
 
@@ -102,7 +102,7 @@ Use of AI coding assistants **is permitted**. However, you should explicitly att
 > In our first lecture, we introduce text preprocessing, including tokenization (BPE/WordPiece), and vocab design.
 > 
 > - Thu., 1:30 pm – 4:10 pm, 03/05/2026
-> - **Slides:** <a href="lecture-01/lecture-01-slides.pptx" target="_blank" rel="noopener">Lecture 01 slides</a>
+> - **Slides:** <a href="slides/lecture-01-slides/index.md" target="_blank" rel="noopener">Lecture 01 slides</a>
 > - **Readings:**
 >   - <a href="lecture-01/readings-0-JM%20Book%20Chapter%202.pdf" target="_blank" rel="noopener">JM Book Chapter 2</a>
 >   - <a href="lecture-01/readings-1-Advances%20in%20NLP.pdf" target="_blank" rel="noopener">Advances in NLP</a>
