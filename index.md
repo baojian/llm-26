@@ -17,7 +17,7 @@ theme: jekyll-theme-minimal
 
 ### Introduction
 
-This course covers the foundations and modern frontiers of Natural Language Processing (NLP), with a heavy emphasis on **Large Language Models (LLMs)**. You will learn the modern pipeline of building effective LLMs from basic tokenization to training, fine-tuning, and deploying modern LLM architectures. Our target audiences are undergraduates and graduate students.
+This course covers the foundations and modern frontiers of Natural Language Processing (NLP), with a heavy emphasis on **Large Language Models (LLMs)**. You will learn the modern pipeline of building effective LLMs from basic tokenization to training, fine-tuning, and deploying modern LLM architectures.
 
 - **Prerequisites:** No formal prerequisites. For Fudan students, it’s safe to take this course in your second year.
 
