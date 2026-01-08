@@ -8,21 +8,6 @@
     <div>School of Data Science, Fudan University</div>
     <div>03/05/2026</div>
   </div>
-  <img
-  src="media/ppt/media/image1.jpeg"
-  alt="overlay"
-  style="
-    position: fixed;
-    right: 18px;
-    bottom: 18px;
-    max-width: 60vw;
-    max-height: 60vh;
-    width: auto;
-    height: auto;
-    z-index: 9999;
-    pointer-events: none;
-    opacity: 0.95;
-  "/>
 </section>
 
 ---
