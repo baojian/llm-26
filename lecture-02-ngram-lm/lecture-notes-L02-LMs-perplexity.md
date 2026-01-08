@@ -1,0 +1,323 @@
+# Lecture-02: Statistical language models
+
+**DATA130030.01, Natural Language Processing** (60 minutes to read)  
+**Date:** 09/17/2025  
+**Lecturer:** Baojian Zhou  
+**Institution:** The School of Data Science, Fudan University
+
+---
+
+$$x$$
+
+This note introduces the $N$-gram language model. We define the $N$-gram language model and show how to use maximum likelihood estimation to learn these parameters. We then discuss techniques to handle zero probability issues (smoothing) and define perplexity.
+
+**Notations.**  
+A sentence after tokenization is $[w_1, w_2, \ldots, w_t]$ denoted it as $s = w_{1:t}$. For example, for the sentence *"the cat saw the dog"*, we have $s=w_{1:5} = [\textit{the, cat, saw, the, dog}]$. Let $P(X)$ represent the probability distribution of a discrete random variable $X$. We use $w_i$ to denote the random variable $X_i$ at the $i$-th position of $s$. That is, $P(X_i = w_i) \equiv P(w_i)$. Let $X_{i+1}$ represent the choice $w_{i+1}$, and $X_i$ represent $w_i$, which occurs before $w_{i+1}$. Then, $P(X_i, X_{i+1})$ is the probability of $w_i w_{i+1}$, which we write as $P(X_i = w_i, X_{i+1} = w_{i+1}) \equiv P(w_{i:i+1})$. We define the vocabulary $\mathcal{V} = \{v_1,v_2,\ldots,v_{|\mathcal{V}|}\}$ and two special symbols $v_0=\text{BOS}$ and $v_{|\mathcal{V}|+1} = \text{EOS}$ presenting the beginning and end of a sentence, respectively.
+
+## Motivation
+
+Say you have a speech recognition task where you need to design a speech recognizer. Given an acoustic signal, the recognizer produces two possible sentences: $s_1 =$*"It's hard to recognize speech"* and $s_2 =$*"It's hard to wreck a nice beach"*. If the model is good enough, it will produce probabilities such that $P(s_1) > P(s_2)$ because both $s_1$ and $s_2$ have very similar acoustic signals, but $s_1$ is more realistic in everyday language. Thus, the speech recognizer needs to be able to assign probabilities to different sentence sequences, comparing how likely $s_1$ and $s_2$ are to occur in the real world. The task of language modeling is to assign probabilities to sentences. In other words, we want to learn a model—specifically, the distribution $P$—that satisfies $P\left(s_1\right) > P\left(s_2\right)$.
+
+**Our task:** The goal is to learn a language model given a *training* corpus, which consists of a set of sentences in some language $\mathcal{V}$. Using this training corpus, we aim to learn a language model. Then, we use a *validation* corpus to tune the hyperparameters of the model. Finally, the *test* corpus is used to evaluate the performance of the trained language model.
+
+## Statistical LMs and $N$-gram
+
+A statistical language model defines a probability distribution over sentences from a given language vocabulary $\mathcal{V}$. A possible vocabulary of English language model could be $\mathcal{V}=\{\textit{the}, \textit{dog}, \textit{laughs}, \textit{saw},\ldots\}$ where we assume $\mathcal{V}$ is a finite set. A *sentence* in the language is a sequence of words
+
+$$s=w_1 w_2 \ldots w_t \equiv w_{1:t},$$
+
+where the integer $t\geq 1$ is not fixed and $w_i \in \mathcal{V}$ for $i \in\{1,\ldots,t-1\}$, and we assume that $w_t = \text{EOS}$ is a special symbol, which is not in $\mathcal{V}$. We define $\mathcal{V}^{\dagger}$ to be the set of all sentences with the vocabulary $\mathcal{V}$. The set $\mathcal{V}^{\dagger}$ is an infinite set because sentences can be of any length. For example, $\mathcal{V}^{\dagger}$ could be like,
+
+$$\mathcal{V}^{\dagger} = \{\text{the dog barks EOS}, \text{the EOS}, \text{cat cat cat EOS}, \text{EOS}, \ldots\}.$$
+
+A language model computes the probability of $w_{1:t}$, $p(w_{1:t})$, which can be formally defined as
+
+> **Definition (Language model (LM))**  
+> Given a finite vocabulary set $\mathcal{V}$, for any $t\geq 1$, a $t$-length sentence is a sequence $w_{1:t}$ where each $w_i \in \mathcal{V} \equiv \{v_1, \ldots, v_{|\mathcal{V}|}\}$ for $i=1,2,\ldots,t-1$ and $w_t = \text{EOS}$. Let $\mathcal{V}^{\dagger}$ be the set of such sentences. A language model is a probability distribution function $p(w_{1:t})$ over $\mathcal{V}^{\dagger}$ such that
+> 
+> - For any $w_{1:t} \in \mathcal{V}^{\dagger}, p(w_{1:t}) \geq 0$.
+> - In addition, $\sum_{w_{1:t} \in \mathcal{V}^{\dagger}} p(w_{1:t})=1$.
+
+Hence, $p\left(w_{1:t}\right)$ defined above is a probability distribution over $\mathcal{V}^{\dagger}$. This language model enables us to *understand*: Given a sentence $w_{1:t}$, we can use $p$ to compute $p(w_{1:t})$ so that we can compare the probabilities of any two sentences; and to *generate*: the distribution $p$ can be employed to generate sentences. One can use the Chain rule to decompose it as a product of conditional probability as
+
+$$p\left(w_{1:t}\right) = \prod_{i=1}^t p\left(w_i|w_{1:i-1}\right),$$
+
+where $p\left(w_1|w_{1:0}=\text{EOS}\right) = p\left(w_1\right)$ by default and $w_{1:i-1}$ is called *history* of $w_i$. Computing $p(w_{1:t})$ *exactly* is generally difficult or impossible. For example, if one only wants to compute sentences with five words $p(w_{1:5})$ and the vocabulary size $|\mathcal{V}|= 10^4$. Then, we need to know all possible $p(w_{1:5})$, which is about $10^{4\times 5}=10^{20}$ parameters only for $p(w_{1:5})$. So far, all language models we have seen are certain models that try to *estimate* $p\left(w_{1:t}\right)$ from some training text. Of course, we hope that the training text can well sample the language. There are roughly three types of language models:
+
+1. **Statistical language models**: These models use statistical methods to predict the next word in a sentence based on the probabilities of word sequences, known as $N$-gram models.
+2. **Neural language models**: These are based on neural networks and include various architectures like two-layer neural networks (word2vec) and RNNs (e.g., LSTMs, GRUs).
+3. **Large language models (LLMs)**: Neural network model that uses self-attention mechanisms (Transformers), such as the BERT and GPT (Generative Pre-trained Transformer) families.
+
+Why we need $w_t = \text{EOS}$? In our definition of the sentence $w_{1:t}$, the sentence length $t$ is itself a random variable. There are various ways of modeling this variability in length. However, the most common language modeling approach is assuming that the last word, $w_t$, is always equal to a special symbol, EOS. This symbol can only appear at the end of a sequence.  Approximating $p(w_{1:t})$ is key to building a practical language model. For example, under a first-order Markov assumption, we can approximate it as $p(w_{1:t}) = P(X_{1:t}=w_{1:t})=\prod_{i=1}^t P(X_i=w_i \mid X_{i-1}=w_{i-1})$. Similarly, under the second-order Markov assumption, we can approximate it as
+
+$$p(w_{1:t}) = P(X_{1:t}=w_{1:t})=\prod_{i=1}^t P(X_i=w_i \mid X_{i-2}=w_{i-2}, X_{i-1}=w_{i-1}),$$
+
+for any $t \geq 1$. The second-order Markov process generates a symbol $x_i$ from the distribution
+
+$$P\left(X_i=x_i \mid X_{i-2}=x_{i-2}, X_{i-1}=x_{i-1}\right),$$
+
+where $x_i \in \mathcal{V} \cup \{\text{EOS}\}$. To sample a sentence from $P$, we can do the following: If we generate the EOS symbol, we finish the sequence. Otherwise, we continue to generate the next symbol in the sequence. A little more formally, the process that generates sentences would be as follows:
+
+- **Step 1:** Initialize $i=1$, and $x_0=x_{-1}=\text{BOS}$
+- **Step 2:** Generate $x_i$ from the distribution $p\left(X_i= x_i \mid X_{i-2:i-1}=x_{i-2:i-1}\right)$
+- **Step 3:** If $x_i=$ EOS, then return $x_{1:i}$. Otherwise, set $i=i+1$ and return to **Step 2**.
+
+Thus, the model generates sentences that vary in length. The $N$-gram model can be defined as
+
+> **Definition ($N$-gram LM)**  
+> Given the finite vocabulary set $\mathcal{V}$, for any $t\geq 1$, a $t$-length sentence is a sequence $w_{1:t}$ where each $w_i \in \mathcal{V} \equiv \{v_1, \ldots, v_{|\mathcal{V}|}\}$ for $i=1,2,\ldots,t-1$ and $w_t = \text{EOS}$. For any sentence $w_{1:t}$, the $N$-gram language model computes the probability of sentence $w_{1:t}$, $p(w_{1:t})$, by using the $(N-1)$-order of Markov assumption, that is
+> 
+> $$p\left(w_{1:t}\right) = \prod_{i=1}^t q\left(w_i \mid w_{i-N+1:i-1}\right),$$
+> 
+> where the function $q(x_{N}|x_{1:N-1})$ is the conditional probability distribution of $N$-gram $x_{1:N}$ where $x_i \in \mathcal{V} \cup\{\text{BOS}\}$ for $i=1,2,\ldots,N-1$ and $x_N \in \mathcal{V} \cup \{\text{EOS}\}$. The value for $q(x_N \mid x_{1:N-1})$ can be interpreted as the probability of seeing the word $x_N$ immediately after the gram $x_{1:N-1}$. By default, we define $w_i=\text{BOS}$ for any $i\leq 0$.
+
+For example,
+
+- When $N=1$, the $p$ is an *unigram* LM where $p\left(w_{1:t}\right) = \prod_{i=1}^t q\left(w_i\right)$.
+- When $N=2$, we call $p$ a *bigram* LM where $p\left(w_{1:t}\right) = \prod_{i=1}^t q\left(w_i | w_{i-1}\right)$.
+- When $N=3$, we call it a *trigram* LM where $p\left(w_{1:t}\right) = \prod_{i=1}^t q\left(w_i \mid w_{i-2:i-1}\right)$.
+
+In the above definition, $q(x_N|x_{1:N-1})$ are parameters that will be learned from the training corpus. For example, the parameters satisfy the constraints that for any trigram $(u, v, w)$, $q(w \mid u, v) \geq 0$ and for any bigram $u, v$, $\sum_{w \in \mathcal{V} \cup\{\text{EOS}\}} q(w \mid u, v)=1$. Thus $q(w \mid u, v)$ defines a distribution over possible words $w$, conditioned on the bigram context $u, v$. The key problem we are left with is estimating the model parameters $q(x_N \mid x_{1:N-1})$. The model has around $|\mathcal{V}|^{N}$ parameters. This is likely to be a very large number. For example, with $|\mathcal{V}|=10,000$, we have $|\mathcal{V}|^3 \approx 10^{12}$ number of parameters.
+
+## Learning $q(x_N|x_{1:N-1})$ from training corpus via MLE
+
+To estimate $q(x_N|x_{1:N-1})$, a reasonable process is to collect a set of raw text (e.g., Wikipedia pages, Web context, books, etc) as training dataset $\mathcal{D}_{\text{tr}}$. After the tokenization, it is
+
+$$\mathcal{D}_{\text{tr}}= \left\{ s_1, s_2,\ldots, s_T\right\} \equiv s_{1:T}, \text{ where } s_i = w_{1:t_i}^{(i)} \in \mathcal{V}^{\dagger},$$
+
+where $T$ is the total number of sentences in $\mathcal{D}_{\text{tr}}$. We can estimate $q(\cdot)$ based on $\mathcal{D}_{\text{tr}} = s_{1:T}$. Let us assume $d$ unknown parameters parameterize $P$. We write the parameters governing the joint distribution as a vector $\bm{\theta}=\left[\theta_1, \theta_2, \ldots, \theta_d\right]^{\top}$ so that $P$ falls within a parametric family $\{P(\mathcal{D}; \bm{\theta}) \mid \bm{\theta} \in \Theta \subseteq \mathbb{R}^d\}$ where $\Theta$ is the parameter space. Maximum likelihood estimation (MLE) estimates the parameters of an assumed probability distribution given some observed data $\mathcal{D}$. **Maximum likelihood estimation (MLE) aims to determine the parameters $\bm{\theta}$ for which the observed data have the highest joint probability.**  Specifically, to maximize the likelihood function of $T$ random sentences in $\mathcal{D}_{\text{tr}}$, one needs to solve the following optimization problem
+
+$$\hat{\bm{\theta}} \in \argmax_{ \bm{\theta} \in \bm{\Theta} } \left\{  \mathcal{L}_T(\bm{\theta} ; \mathcal{D}_{\text{tr}}) := P(s_{1:T}; \bm{\theta})  \right\}.$$
+
+The above MLE allows us to estimate the $N$-gram model. There are two questions: What are the parameters $\bm{\theta}$ of unigram, bigram, and trigram? and How to estimate these parameters $\bm{\theta}$?
+
+### MLE for unigram model
+
+Given the training corpus $\mathcal{D}_{\text{tr}} = \{s_1,s_2,\ldots,s_T\}$ observed from true distribution $P$. Under the assumption of the unigram model, we have
+
+$$P(s_{1:T}) = \prod_{i=1}^{T} P(s_i \equiv w_{1:t_i}^{(i)} ) = \prod_{i=1}^{T} \prod_{j=1}^{t_i} q(w_{j}^{(i)}) = \prod_{i=1}^{|\mathcal{V}|+1} q(v_i)^{C(v_i)} = \prod_{i=1}^{|\mathcal{V}|+1} \theta_{i}^{C(v_i)},$$
+
+where we assume sentences $s_i$ are independent with each other, the count $C(v_i) = \sum_{i=1}^T |\{w_j^{(i)} : w_j^{(i)} = v_i, j = 1,\ldots,t_i\}|$ denotes the number of $v_i$ in $s_{1:T}$, the parameter vector $\bm{\theta} = [\theta_1,\theta_2,\ldots,\theta_{|\mathcal{V}|},\theta_{\text{EOS}}]^\top$ with $\theta_i := q(v_i)$. Indeed, the parameter $\bm{\theta}$ completely defines the distribution $P(w_{1:t})$, and we have the constraint that $\sum_{i=1}^{|\mathcal{V}|+1} \theta_i = \sum_{i=1}^{|\mathcal{V}|+1} q\left(v_i\right) = 1$. We continue to write out the likelihood function
+
+$$\mathcal{L}_T(\bm{\theta} ; \mathcal{D}_{\text{tr}}) := P(s_{1:T}; \bm{\theta}) = \prod_{i=1}^T P(s_i; \bm{\theta}) = \prod_{i=1}^{|\mathcal{V}|+1} q\left(v_i; \bm{\theta}\right)^{C\left(v_i\right)} = \prod_{i=1}^{|\mathcal{V}|+1} \theta_i^{C\left(v_i\right)}.$$
+
+To solve the MLE problem, it is equivalent to maximize the log of $\mathcal{L}$, we have
+
+$${\bm{\theta}}^* \in \argmax_{ \bm{\theta} \in \{ \bm{x}: \|\bm{x}\|_1 =1\}} \big\{  \mathcal{L}_T(\bm{\theta} ; \mathcal{D}_{\text{tr}}) := P(s_{1:T}; \bm{\theta})  \big\} = \argmax_{ \sum_{j} \theta_j = 1 } \sum_{i=1}^{|\mathcal{V}|+1} C\left(v_i\right) \log \theta_i.$$
+
+Since the constraint set is convex, it is a convex-constrained optimization problem as the following
+
+$$\max_{\bm{\theta}} \sum_{i=1}^{|\mathcal{V}|+1} C(v_i) \log \theta_i, \text{ subject to }  \sum_{i=1}^{|\mathcal{V}|+1} \theta_{i} = 1.$$
+
+To solve this convex-constrained optimization problem, we introduce a scalar $\lambda$ called a *Lagrange multiplier* (one for each constraint), rewrite the equality constraint as $E(x)=0$, and define a new Lagrangian function of the form $G(x, \lambda)=F(x)-\lambda E(x)$, where $F(x)$ is the original objective. Then, we just need to check the saddle points of the Lagrangian function $G$. In our case, the Lagrangian is
+
+$$G(\bm{\theta}, \lambda) := \sum_{i=1}^{|\mathcal{V}|+1} C(v_i) \log \theta_{i} - \lambda\left(\sum_{i=1}^{|\mathcal{V}|+1} \theta_i - 1\right) = \sum_{i=1}^{|\mathcal{V}|+1}( C(v_i) \log \theta_i - \lambda \theta_i) + \lambda = \sum_{i=1}^{|\mathcal{V}|+1} g( \theta_i) + \lambda,$$
+
+where $g(\theta_i) := C(v_i) \log \theta_i - \lambda \theta_i$ is a concave function and $G$ is linear in term of $\lambda$. Hence, $G(\bm{\theta},\lambda)$ is decomposible concave function in terms of $\bm{\theta}$, one can get maximal value of $\mathcal{L}$ by getting the saddle points of $G$. The function $g_i$ is differentiable and concave, and we set the gradient of $g_i$ to zero to get such saddle point (Since the original objective is concave and constraint equation is linear, then the saddle point is unique. To find this saddle point, we just need to letting gradient of $\bm{\theta}$ and $\lambda$ be zeros.)
+
+$$\begin{aligned}
+\frac{\partial g_i }{\partial \theta_i} & =\frac{C (v_i) }{\theta_i} -\lambda=0, \text{ for } i = 1,2,\ldots, |\mathcal{V}|+1. \\
+\frac{\partial G }{\partial \lambda} & =\sum_{i=1}^{|\mathcal{V}|} \theta_i -1=0
+\end{aligned}$$
+
+which gives $\lambda = \sum_{i=1}^T |s_i| = \sum_{i=1}^{|\mathcal{V}|+1} C(v_i)$ and each optimal $\theta_i^*$ is
+
+$${\theta}_i^* = \frac{C(v_i)}{\sum_{i=1}^{|\mathcal{V}|+1} C(v_i) }=\frac{C(v_i)}{\sum_{i=1}^T |s_i|},$$
+
+where $\sum_{i=1}^T |s_i|$ is the number of tokens in training corpus $s_{1:T}$. It can be seen that the purpose of $\lambda = \sum_{i=1}^{|\mathcal{V}|+1} C(v_i)$ is normalization. Therefore, the parameter estimation of MLE for the unigram model is simply the frequency estimate for the unigram model!
+
+### MLE for bigram model
+
+For bigram model, given a training dataset $\mathcal{D}_{\text{tr}} = s_{1:T}$ where each sentence $s_i = w_{1:t_i}^{(i)}$, we have
+
+$$P(s_{1:T}) = \prod_{i=1}^T P(s_i) = \prod_{i=1}^T \prod_{j=1}^{t_i} q(w_{j}^{(i)}|w_{j-1}^{(i)}) = \prod_{i=0}^{|V|} \prod_{j=0}^{|V|} q(v_{j+1} | v_i)^{C(v_i, v_{j+1})},$$
+
+where $C(v_i,v_{j+1})$ is the number of bigram $(v_i,v_{j+1})$ appeared in $s_{1:T}$. We may need to consider the conditional probability $q(v_{j+1}|v_i)$ more carefully. Recall we defined $v_0= \text{EOS}$ as the starting mark of a sentence. Let $\theta_{i,j+1} := q(v_{j+1}|v_i)$, and $\bm{\theta}_i = [\theta_{i,1},\theta_{i,2},\ldots,\theta_{i,|\mathcal{V}|+1}]^\top$ for $i=0,1,\ldots,|V|$. Indeed, these $\bm{\theta}_i$ completely define the distribution $p(w_{1:t})$, and we have the constraint that $\sum_{j=0}^{|\mathcal{V}|} \theta_{i,j+1} = \sum_{j=0}^{|\mathcal{V}|} q\left(v_{j+1}|v_i\right) = 1$ for all $i=0,1,\ldots,|V|$. We continue to write out the log-likelihood function
+
+$$\log P(s_{1:T};{\bm{\Theta}}) = \sum_{i=0}^{|\mathcal{V}|} \sum_{j=0}^{|\mathcal{V}|} C\left(v_i, v_{j+1}\right) \log q\left(v_{j+1} \mid v_i\right).$$
+
+To maximize the above score, equivalently, we have the following optimization problem:
+
+$$\max_{\bm{\theta}_{0:|\mathcal{V}|}} \log P(s_{1:T};\bm{\theta}_{0:|\mathcal{V}|}), \text{ subject to } \sum_{j=0}^{|\mathcal{V}|} \theta_{i,j+1} = 1, \forall \ i =0,1,\ldots,|\mathcal{V}|.$$
+
+Similar to the unigram model, we introduce $|\mathcal{V}|+1$ Lagrange multipliers $\lambda_i$ for each equation constraint  $\sum_{j=0}^{|\mathcal{V}|}  \theta_{i,j+1} -1=0$ for $i=0,1,\ldots,|\mathcal{V}|$. We have the following Lagrangian function
+
+$$\mathcal{G}(\bm{\theta}_{0},\ldots, \bm{\theta}_{|\mathcal{V}|},\bm{\lambda}) := \sum_{i=0}^{|\mathcal{V}|} \sum_{j=0}^{|\mathcal{V}|} C\left(v_i, v_{j+1}\right) \log \theta_{i,j+1} - \sum_{i=0}^{|\mathcal{V}|} \lambda_i\left( \sum_{j=0}^{|\mathcal{V}|} \theta_{i,j+1} -1\right),$$
+
+where again, we can decompose $\mathcal{G}$ function into $n$ concave function, and the corresponding optimal solution $\bm{\theta}_0^*,\ldots, {\bm{\theta}}_{|\mathcal{V}|}^*$ are obtained by letting the gradient of $\theta_{i,j+1}$ be 0:
+
+$$\frac{\partial \mathcal{L}}{\partial \theta_{i,j+1}} = \frac{C(v_i, v_{j+1})}{ \theta_{i,j+1}} - \lambda_i=0 \quad\Rightarrow\quad
+\theta_{i,j+1}^* = \frac{C(v_i, v_{j+1})}{\lambda_i}.$$
+
+To compute $\lambda_i$, note that $\sum_{j=0}^{|\mathcal{V}|} \theta_{i,j+1} =1$, we have
+
+$$\sum_{j=0}^{|\mathcal{V}|} \theta_{i,j+1} = \sum_{j=0}^{|\mathcal{V}|}  \frac{C(v_i, v_{j+1})}{\lambda_i} = \frac{\sum_{j=0}^{|\mathcal{V}|} C(v_i, v_{j+1})}{\lambda_i}=1 \quad \Rightarrow \quad \lambda_i = \sum_{j=0}^{|\mathcal{V}|} C(v_i, v_{j+1}).$$
+
+Hence, we plug $\lambda_i$ into the solution, we obtain
+
+$$\theta_{i,j+1}^* = q(v_{j+1} \mid v_i) = \frac{C(v_i, v_{j+1})}{\sum_{j=0}^{|\mathcal{V}|} C(v_i, v_{j+1})}.$$
+
+For the trigram model and beyond, the MLE of the estimate $q\left(x_N \mid x_{1:N-1}\right)$ is given by
+
+$$q\left(x_N \mid x_{1: N-1}\right) = \frac{C(x_{1:N})}{C(x_{1: N-1})}.$$
+
+## Smoothing for $N$-gram LMs
+
+$N$-gram models usually have sparsity issues. For example, after observing all trigrams (i.e., consecutive word triplets) in 38 million words' worth of newspaper articles, a third of trigrams in new articles from the same source are novel. Furthermore, even among the observed trigrams, the vast majority occurred only once, and the majority of the rest had similarly low counts.
+
+Therefore, straightforward MLE of $N$-gram probabilities from counts is not advisable. Instead, various smoothing techniques have been developed. These include discounting MLE, recursively backing off to lower order $N$-grams, and linearly interpolating $N$-grams of different order.
+
+To keep a language model from assigning zero probability to these unseen events, we will have to shave off a bit of probability mass from some more frequent events and give it to the events we have never seen. The following gives you some smoothing techniques to avoid probability zero.
+
+- **Additive smoothing.** To avoid zero probabilities, we pretend that each $N$-gram occurs slightly more often than it does: we add a factor $\delta$ to every count, where typically $0<\delta \leq 1$. Thus, we set
+
+$$q_{\text{Add}}(x_N \mid x_{1:N-1}) = \frac{\delta+C(x_{1:N})}{\delta(|\mathcal{V}|+1)+\sum_{x_N\in \mathcal{V} \cup \text{EOS} } C(x_{1:N})}.$$
+
+The simplest smoothing method above is adding one smoothing ($\delta = 1$) to all the $N$-gram counts. Since there are $|\mathcal{V}|$ words in the vocabulary, and each one was incremented, we also need to adjust the denominator to account for the extra $|\mathcal{V}|$ observations.
+
+- **Linear interpolation.** By contrast, in the linear interpolation, we always mix the probability estimates from all the $N$-gram estimators, weighting and combining the trigram, bigram, and unigram counts. For example, consider the trigram model; the linear interpolation gives
+
+$$q_{\text{Int}}(x_3 \mid x_{1:2})= \lambda_1 \cdot q_{\text{ML}}(x_3) + \lambda_2 \cdot q_{\text{ML}}(x_3 \mid x_{2}) + \lambda_3 \cdot q_{\text{ML}}\left(x_3 \mid x_{1:2}\right),$$
+
+where $\lambda_1, \lambda_2$, and $\lambda_3$ are parameters such that $\sum_{i=1}^3 \lambda_i=1$ which are learned from validation text. Furthermore, $q_{\text{ML}}(x_3 \mid x_1, x_2) = \frac{C(x_{1:3})}{C(x_{1:2})} , q_\text{ML}(x_3 \mid x_2) =\frac{C(x_{2:3})}{C(x_2)}, q_{\text{ML}}(x_3) = \frac{C(x_3)}{ \sum_{i=1}^T t_i}$. One extension to the method, often referred to as *bucketing*, is a much simpler method defined as
+
+$$\begin{aligned}
+& \lambda_1=\frac{C(x_{1:2})}{C(x_{1:2})+\gamma}, \quad \lambda_2=\left(1-\lambda_1\right) \times \frac{C(x_2)}{C(x_2)+\gamma}, \quad \lambda_3=1-\lambda_1-\lambda_2,
+\end{aligned}$$
+
+where $\gamma>0$ is the only parameter. One can verify that $\lambda_i$ are positive and $\lambda_1 + \lambda_2 + \lambda_3=1$.
+
+- **Katz Back-off (discounting).** The back-off smoothing strategy is recursively defined. We first consider the bigram model where, for any $x_1$, define the sets
+
+$$\mathcal{A}(x_1)=\{x_2: C(x_1 x_2)>0\}, \quad \text{ and } \quad \mathcal{B}(x_1)=\{x_2: C(x_1 x_2)=0\}.$$
+
+Then, the estimate is defined as
+
+$$q_{\text{Katz}}(x_2 \mid x_1)= \begin{cases}\frac{C^*(x_1, x_2)}{C(x_1)} & \text { If } x_2 \in \mathcal{A}(x_1) \\ \alpha(x_1) \cdot \frac{q_{\text{ML}}(x_2)}{\sum_{x_2 \in \mathcal{B}(x_1)} q_{\text{ML}}(x_2)} & \text { If } x_2 \in \mathcal{B}(x_1)\end{cases},$$
+
+where $C^*$ is the discounted count. For any bigram $C(x_1, x_2)$ such that $C(x_1, x_2)>0$, we define the discounted count as
+
+$$C^*(x_1, x_2)=C(x_1, x_2)-\beta,$$
+
+where $\beta\in [0,1]$ (a typical value might be $\beta=0.5$ ). Thus, we simply subtract a constant value, $\beta$, from the count. This reflects the intuition that if we take counts from the training corpus, we will systematically over-estimate the probability of bigrams seen in the corpus (and under-estimate bigrams not seen in the corpus). In other words, if $C(x_1,x_2)>0$, we return the estimate $C^*(x_1,x_2) / C(x_1)$; otherwise, we divide the remaining probability mass $\alpha(x_1)$ in proportion to the unigram estimates $q_{\text{ML}}(x_2)$. The method can be generalized to trigram language models in a natural way: for any bigram $(u, v)$ define
+
+$$\mathcal{A}(u, v)=\{w: c(u, v, w)>0\}, \quad \text{ and } \mathcal{B}(u, v)=\{w: c(u, v, w)=0\}.$$
+
+Define $C^*(u, v, w)$ to be the discounted count for the trigram $(u, v, w)$ : that is, $C^*(u, v, w)=C(u, v, w)-\beta$ where $\beta$ is again the discounted value. Then, the trigram model is
+
+$$q_{\text{Katz}} (w \mid u, v)= \begin{cases}\frac{C^*(u, v, w)}{C(u, v)} & \text { If } w \in \mathcal{A}(u, v) \\ \alpha(u, v) \times \frac{q_{ \text{Katz} }(w \mid v)}{\sum_{w \in \mathcal{B}(u, v)} q_{\text{Katz}}(w \mid v)} & \text { If } w \in \mathcal{B}(u, v)\end{cases},$$
+
+where $\alpha(u, v)=1-\sum_{w \in \mathcal{A}(u, v)} \frac{C^*(u, v, w)}{C(u, v)}$ is again the "missing" probability mass. Note that we have divided the missing probability mass in proportion to the bigram estimates $q_{\text{Katz}}(w \mid v)$, which were defined previously.
+
+- **Kneser-Ney Smoothing.** Given the discount parameter $\delta$ with $0 \leq \delta \leq 1$, the Kneser-Ney smoothing for bigram model is
+
+$$q_{\text{KN}}\left(x_2 \mid x_1 \right)=\frac{\max \left\{C\left(x_1 x_2\right) - \delta, 0\right\}}{ \sum_{x \in \mathcal{V} \cup \text{EOS}} C(x_1 x)} + \lambda_{x_1} \cdot q_{\text{KN}}\left(x_2\right)$$
+
+where the unigram probability $q_{\text{KN}}\left(x_2\right)$ depends on how likely it is to see the word $x_2$ in an unfamiliar context, which is estimated as the number of times it appears after any other word divided by the number of distinct pairs of consecutive words in the corpus:
+
+$$q_{\text{KN}}\left(x_2\right) =\frac{|\{x: C(x x_2)>0\}|}{\left|\left\{(x_1,x_2): C\left(x_1x_2\right)>0\right\}\right|}.$$
+
+The parameter $\lambda_{x_1}$ can be calculated as
+
+$$\lambda_{x_1} = \frac{\delta \cdot \left|\left\{w: C\left(x_1 w\right)>0\right\}\right|}{\sum_v C\left(x_1 v\right)}.$$
+
+Just like Katz smoothing, we can extend KN smoothing to $N$-gram as follows
+
+$$q_{\text{KN}}(x_N \mid x_{1:N-1}) = \frac{\max \left\{C(x_{1:N})-\delta, 0\right\}}{\sum_{x \in \mathcal{V}\cup \text{EOS} } C\left(x_{1:N-1} x\right)}+\lambda_{x_{1:N-1}} q_{\text{KN}}\left(x_N \mid x_{1:N-1}\right),$$
+
+where
+
+$$\lambda_{1:N-1} = \frac{ \delta\cdot \left|\left\{x: C(x_{1:N-1} x) > 0 \right\}\right|}{\sum_{x \in \mathcal{V} \cup \text{EOS} } C\left(x_{1:N-1} x\right)}.$$
+
+A modified Kneser-Ney smoothing is implemented in [kenlm](https://github.com/kpu/kenlm).
+
+- **Stupid Back-off.** Back-off without discounting (not a true probability) is defined as
+
+$$\begin{aligned}
+S\left(x_N \mid x_{1:N-1}\right) &= \left\{\begin{array}{c}
+\frac{C(x_{1:N})}{C(x_{1:N-1})} \quad\quad\quad\quad\quad \text { if } C(x_{1:N})>0 \\
+0.4 \cdot S(x_N \mid x_{2:N-1}) \quad \text { otherwise }
+\end{array}\right. \\
+S\left(x_N\right) &= \frac{C(x_N)}{T},
+\end{aligned}$$
+
+where $T$ is the size of the total training corpus.
+
+## Evaluating $N$-grams via perplexity
+
+Assume we have some test data sentences (examples of new, unseen sentences) $s_1, s_2, \ldots s_m$. Each $s_i:= w_{1:t_i}^{(i)}$. Since a good model should "predict" these real-world sentences well, the total probability assigned to these testing sentences should be high. So, the intuition is that the higher the probability assigned, the better the language model is at modeling unseen sentences. For any $s_i$, we can measure its probability $p\left(s_i\right)$ under the language model. A natural measure of the quality of the language model would be the probability it assigns to the entire set of test sentences, that is
+
+$$\prod_{i=1}^m p\left(s_i\right)$$
+
+The perplexity on $s_{1:m}$ is derived as a direct transformation of this quantity. Define $M := \sum_{i=1}^m t_i$ to be the total number of words in the test corpus. Then the average log probability under the model is defined as
+
+$$\frac{1}{\sum_{i=1}^m |s_i|} \log_2 \prod_{i=1}^m p\left(s_i\right)=\frac{1}{\sum_{i=1}^m |s_i|} \sum_{i=1}^m \log_2 p\left(s_i\right).$$
+
+This is just the log probability of the entire test corpus divided by the total number of words in $s_{1:m}$. Again, the higher this quantity is, the better the language model. The perplexity is then defined as
+
+$$\operatorname{PPL}(s_{1:m}) := 2^{-l}, \quad \text{ where } l=\frac{1}{\sum_{i=1}^m |s_i|} \sum_{i=1}^m \log_2 p\left(s_i\right).$$
+
+Thus, we take the negative of the average log probability and raise it to power two. The perplexity is a positive number. The smaller the perplexity value, the better LM is at modeling unseen data. We can understand the quantity of perplexity as: "*If we randomly picked words from the probability distribution calculated by the language model at each time step, on average, how many words would it have to pick to get the correct one?*" (Neubig, 2017, Page 9). For example, if we assume the language model is the uni-gram model and take all words that occurred in the training set with equal probability, then, for the testing sequence $s_{1:m}$, $\operatorname{PPL}(s_{1:m}) = p(s_{1:m})^{-1/M} = (1/|\mathcal{V}|)^{M\cdot (-1/M)} = |\mathcal{V}|$. On average, we have to pick $|\mathcal{V}|$ words to get the correct one. It is true because every word occurs with equal probability. For another example, if $|\mathcal{V}|=1,000,000$ and there is a good language model with perplexity $\operatorname{PPL}(s_{1:m})=30$, we must pick about 30 words to get the "correct" one.
+
+**Entropy and cross-entropy:** What is the relation between perplexity and entropy? The perplexity essentially measures the entropy of a language model. Another way to understand the perplexity is to see its relationship to cross-entropy. Given a discrete random variable $X$, with possible outcomes $x_1,\ldots, x_n$, which occur with probability $p(x_1), \ldots, p( x_n)$, the *entropy* of $X$ is defined as
+
+$$H(p) \triangleq - \sum_{i=1}^n p( x_i) \cdot\log p(x_i).$$
+
+The *cross-entropy* of the distribution $q$ relative to a distribution $p$ over a given set is defined as $H(p,q)=- \mathbb{E}_{p}[\log q]$ where $\mathbb{E}_{p}[\cdot]$ is the expectation with respect to $p$. We assume two distribution $p$ and $q$ are discrete and take outcomes $x_i$ from $\mathcal{X}$, we have
+
+$$H(p, q) = - \sum_{x_i \in \mathcal{X}} p(x_i) \log q(x_i).$$
+
+In the language model, we want to estimate the true distribution $p$ of words in any corpus, and $q$ is the distribution we estimated from a training corpus. To evaluate $p$, we may want to see its entropy $H(p)$ but we cannot directly calculate $H(p)$ or $H(p,q)$ since we do not know the true distribution $p$. However, we know an estimation of $p$, which is $q$ learned from a training corpus. The key idea of measuring $H(p)$ is that we can find an estimation of $H(p)$ based on $q$. To make this idea more specific, again, we assume two distributions $p$ and $q$ are discrete and take outcomes $x_i$ from the space $\mathcal{X}$, we have
+
+$$\begin{align}
+H(p, q) = - \sum_{x_i \in \mathcal{X}} p(x_i) \log q(x_i) &= - \sum_{x_i \in \mathcal{X}} p(x_i) \left( \log p(x_i) + \log q(x_i) - \log p(x_i) \right) \\
+&= H(p) + \underbrace{\sum_{x_i \in \mathcal{X}} p(x_i) \left(\log p(x_i) - \log q(x_i)\right)}_{D_{\operatorname{KL}(p\| q)} \geq 0} \geq H(p),
+\end{align}$$
+
+where the last inequality from the fact that the Kullback-Leibler (KL) divergence of $p$ and $q$ (also called relative entropy) measures the relative information gain if $p$ would be used instead of $q$ which is currently used. Notice that the KL divergence is always non-negative, i.e. $D_{\operatorname{KL}}(p || q) \geq 0$. One can use the Gibbs' inequality, i.e., $\sum _{i=1}^{n}p_{i}\log p_{i} \geq \sum _{i=1}^{n}p_{i}\log q_{i}$ to verify this (Try use trick, $\log x \leq x - 1$, then we have $\log(q_i/p_i) \leq q_i / p_i - 1$. Sum it over $i$, we will reach  this inequality.).
+
+From the above inequality, we see that $H(p,q)$ is an upper bound of $H(p)$ and if $q$ is closer to $p$, then $H(p,q)$ is closer to $H(p)$. The equality holds if and only if $p = q$. Now, by Shannon-McMillan-Breiman theorem as shown in Equ. (3.49) of Page 53 (Jurafsky, 2022), we have the following approximation of $H(p,q)$
+
+$$H(p) \leq  H(p,q) = \lim_{n\rightarrow \infty} -\frac{1}{n} \log q(w_{1:n})   \approx H(s_{1:m}) \triangleq -\frac{1}{|s_{1:m}|} \log p(s_{1:m}).$$
+
+This equation captures the whole point of perplexity: Our original goal is to calculate the true entropy of an unknown language model $p$, which is impossible to calculate. Instead, we use $-\frac{1}{n} \log q(w_1 w_2,\ldots,w_n)$, a reasonable approximation, to estimate the true entropy. Finally, the perplexity of a language model $p$ on the test sequence $W$ is just the exponential of the approximation $H(W)$ we found in the above equation, that is
+
+$$\text{PPL}(s_{1:m}) = 2^{- \frac{1}{|s_{1:m}|} \log_2 p(s_{1:m})} = 2^{H(s_{1:m})}.$$
+
+There is no particular reason to use the exponential form, except that it makes the numbers more distinguishable, making perplexity more sensitive than $H(W)$ (Note that $H(W)$ is an approximation, not the true entropy.). Perplexity is just one evaluation metric for language models. For example, Meister et al. (2021) proposed an alternative approach to evaluate language models. You can find more related papers if you're interested. In general, perplexity has the following advantages: 1) Perplexity scores are easier to understand and remember than entropy values. For instance, a perplexity range of 100-200 is more intuitive than entropy values like 6.64 to 7.64 bits; 2) A 10% improvement in perplexity feels more significant than a 2% reduction in entropy, even if they represent similar improvements; 3) Perplexity can be directly computed using held-out or test data, making it a straightforward metric for model performance and lower perplexity indicates a model closer to the "true" model that could generate the observed data.
+
+The main component of the $N$-gram model has been used in the first generation of Google Translate (Brants et al., 2007). However, a word $N$-gram language model is a purely statistical language model. It has been superseded by RNN-based models, which large language models (LLMs) have superseded. The notes provided are extensively revised or expanded for a personal understanding based on the original content provided in references and notes therein.
+
+## References
+
+- https://cs229.stanford.edu/lectures-spring2023/cs229-probability_review.pdf
+- https://cs229.stanford.edu/notes2022fall/main_notes.pdf
+- https://anoopsarkar.github.io/nlp-class/assets/slides/prob.pdf
+- https://www.cs.columbia.edu/~mcollins/courses/nlp2011/notes/lm.pdf
+- https://pages.cs.wisc.edu/~jerryzhu/cs838/LM.pdf
+- https://www3.nd.edu/~dchiang/teaching/nlp/2021/notes/chapter2v2.pdf
+- https://www.fit.vut.cz/study/phd-thesis-file/283/283.pdf
+
+## Appendix
+
+Given a concave function $\varphi: \mathbb{R} \rightarrow \mathbb{R}$, and positive weights $a_{i}, i =1,2,\ldots,n$, Jensen's inequality can be stated as: $\varphi \left(\sum_{i=1}^n a_{i}x_{i} / \sum_{i=1}^n a_{i}\right) \geq \sum_{i=1}^n a_{i}\varphi (x_{i}) / \sum_{i=1}^n a_{i}$. That is, when $\varphi$ is concave and $a_i = 1$
+
+$$n \cdot \varphi \left(\sum_{i=1}^n \frac {x_{i}}{n} \right) \geq \sum_{i=1}^n \varphi (x_{i}).$$
+
+The following theorem states that when the probability distribution of random variable $X$ is uniform, the entropy of the random variable $X$ is maximized.
+
+> **Theorem (Maximal entropy)**  
+> Given a random variable $X$ and its probability distribution $p$, if $p$ is a uniform distribution, then the entropy of $X$ is maximized.
+
+**Proof:**  
+We can use Jensen's inequality to prove it. Let $\varphi( y) = - y \log (y)$ and we assume that $\varphi(0) = 0$ (This assumption does make sense). Assume further that random variable $X$ has $n$ possible outcomes, i.e., $x_1,x_2,\ldots, x_n$  with probability $p(x_1),p(x_2),\ldots, p(x_n)$. Since $\varphi(y)$ is concave on $[0,1]$ and $y_1 = p(x_1), y_2 = p(x_2),\ldots, y_n = p(x_n)$ are points in $[0,1]$, we have
+
+$$\begin{align*}
+n \cdot \varphi \left(\sum_{i=1}^n \frac {y_{i}}{n} \right) &\geq \sum_{i=1}^n \varphi (y_{i}) \\    
+n \cdot \left( - \sum_{i=1}^n \frac {p(x_i)}{n}\right) \log \left(\sum_{i=1}^n \frac { p(x_i)}{n}\right) &\geq -\sum_{i=1}^n p(x_i) \log p(x_i) \\
+n \cdot \left( - \frac{1}{n} \right) \log \left(\frac{1}{n} \right) &\geq -\sum_{i=1}^n p(x_i) \log p(x_i) := H(p),
+\end{align*}$$
+
+where the last inequality directly indicates $\log(n) \geq H(p)$. Clearly, the upper bound of the entropy $H(p)$ is attainable when $p(x_i)=1/n$ for all $i=1,2,\ldots,n$. We finish the proof.
+
+One can find more on this topic in Conrad (2004).
