@@ -1,0 +1,1 @@
+Some text with a special character: é, 你好，世界！
