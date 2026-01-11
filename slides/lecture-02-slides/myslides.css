@@ -1,0 +1,96 @@
+:root{
+  --fudan-blue:#1f4e9a;
+  --muted:#cfcfcf;
+}
+
+.fudanblue { color: var(--fudan-blue); }
+
+/* more PPT-like: left aligned */
+.reveal .slides section { text-align: left; }
+.reveal .slides { padding: 0; }
+
+/* slide number */
+.reveal .slide-number{
+  right: 18px;
+  bottom: 10px;
+  font-size: 16px;
+  opacity: 0.55;
+  color: #000;
+  background: transparent;
+}
+
+/* TITLE SLIDE */
+.title { text-align: center !important; }
+.title-main{
+  color: var(--fudan-blue);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1.15;
+  margin: 80px 20px 24px;
+}
+.title-sub{
+  color: var(--fudan-blue);
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 1.08;
+  margin: 0;
+}
+.title-meta{
+  margin-top: 210px;
+  color: var(--fudan-blue);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.65;
+}
+
+/* PPT SLIDE HEADER */
+.ppt{ padding: 6px 6px; }
+.ppt-title{
+  font-size: 64px;
+  font-weight: 800;
+  color: var(--fudan-blue);
+  margin: 0 0 6px 0;
+}
+.ppt-line{
+  height: 6px;
+  background: var(--fudan-blue);
+  margin: 0 0 18px 0;
+}
+
+
+
+/* OUTLINE BULLETS */
+.outline-bullets{
+  list-style: disc;
+  padding-left: 1.05em;
+  margin: 0;
+}
+.outline-bullets.big{
+  font-size: 80px;
+  line-height: 1.8;
+  font-weight: 700;
+}
+.outline-bullets.big li.active { color: #000; }
+.outline-bullets.big li.muted  { color: var(--muted); }
+
+/* Medium + small bullets (use instead of .outline-bullets.big) */
+.outline-bullets.med{
+  font-size: 40px;
+  line-height: 1.45;
+  font-weight: 700;
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.outline-bullets.small{
+  font-size: 30px;
+  line-height: 1.45;
+  font-weight: 650;
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.outline-bullets.med li,
+.outline-bullets.small li{
+  margin: 10px 0;
+}
