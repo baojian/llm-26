@@ -209,3 +209,4 @@ __marimo__/
 .datasets
 .DS_Store
 *.arpa
+kenlm
